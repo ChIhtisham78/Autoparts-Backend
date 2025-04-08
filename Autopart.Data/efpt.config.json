@@ -1,0 +1,256 @@
+﻿{
+   "CodeGenerationMode": 4,
+   "ContextClassName": "autopartContext",
+   "ContextNamespace": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "Autopart.Data",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 2,
+   "SelectedToBeGenerated": 1,
+   "T4TemplatePath": null,
+   "Tables": [
+      {
+         "Name": "public.Addresses",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.AspNetRoleClaims",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.AspNetRoles",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.AspNetUserClaims",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.AspNetUserLogins",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.AspNetUserRoles",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.AspNetUsers",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.AspNetUserTokens",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Attributes",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Authors",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Balance",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Banners",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.BillingAddress",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Billings",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Categories",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Categories_Products",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.CategoryTranslations",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Coupons",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Engine",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.FlashSaleImages",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Galleries",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.HomePages",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Images",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.ManufacturerModels",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.ManufacturerType",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Manufactures",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.OrderLines",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Orders",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.OrderStatus",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.PaymentHistory",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Products",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.ProductTags",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Profiles",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.PromotionalSliders",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Questions",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Ratings",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.RefundReason",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Settings",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.ShippingAddress",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Shippings",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Shops",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.ShopSocials",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Socials",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Status",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.SubCategoryList",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.SVCRelation",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Tags",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Tax",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Temp",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Types",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.UserWishlist",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.Values",
+         "ObjectType": 0
+      },
+      {
+         "Name": "public.VendorOrderRelations",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": null,
+   "UncountableWords": null,
+   "UseAsyncStoredProcedureCalls": true,
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDatabaseNamesForRoutines": true,
+   "UseDateOnlyTimeOnly": false,
+   "UseDbContextSplitting": false,
+   "UseDecimalDataAnnotationForSprocResult": true,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": true,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UsePrefixNavigationNaming": false,
+   "UseSchemaFolders": false,
+   "UseSchemaNamespaces": false,
+   "UseSpatial": false,
+   "UseT4": false,
+   "UseT4Split": false
+}

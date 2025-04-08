@@ -1,0 +1,20 @@
+-- Create OrderStatus table
+CREATE TABLE IF NOT EXISTS "OrderStatus" (
+    "Id" SERIAL PRIMARY KEY,
+    "Name" VARCHAR(255),
+    "Slug" VARCHAR(255),
+    "Serial" INT,
+    "Color" VARCHAR(20),
+    "CreatedAt" TIMESTAMP,
+    "UpdatedAt" TIMESTAMP,
+    "Language" VARCHAR(10),
+    "TranslatedLanguages" TEXT[]
+);
+
+
+ALTER TABLE "Orders"
+ADD COLUMN "OrderStatusId" INT;
+
+ALTER TABLE "Orders"
+ADD CONSTRAINT fk_orderstatus
+FOREIGN KEY ("OrderStatusId") REFERENCES "OrderStatus"("Id");

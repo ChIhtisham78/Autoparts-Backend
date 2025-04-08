@@ -1,0 +1,90 @@
+﻿using Autopart.Application.Interfaces;
+using Autopart.Application.Models.Products;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Autopart.Api.Controllers
+{
+    [Route("api/Shipping")]
+    [ApiController]
+    [Authorize]
+    public class ShippingsController : ControllerBase
+    {
+        private readonly IShippingsService _shippingsService;
+
+        public ShippingsController(IShippingsService shippingsService)
+        {
+            _shippingsService = shippingsService;
+        }
+
+        [Authorize]
+        [HttpPost("shipping")]
+        public async Task<ActionResult> PostShippings([FromBody] ShippingsDto shippingsDto)
+        {
+            try
+            {
+                if (shippingsDto == null)
+                {
+                    return BadRequest("Shipping data is null.");
+                }
+
+                var result = await _shippingsService.AddShippings(shippingsDto);
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
+        }
+
+
+
+        [HttpGet("shippings")]
+        public async Task<ActionResult> GetShippings()
+        {
+            var result = await _shippingsService.GetShippings();
+            return Ok(new { result });
+        }
+
+
+        [HttpGet("shipping/{id}")]
+        public async Task<ActionResult> GetShippingsById(int id)
+        {
+            return Ok(await _shippingsService.GetShippingsById(id));
+        }
+
+        [Authorize]
+        [HttpPut("shipping")]
+        public async Task<ActionResult> PutShippings(int id, [FromBody] ShippingsDto shippingsDto)
+        {
+            try
+            {
+                if (shippingsDto == null)
+                {
+                    return BadRequest("Shipping data is null.");
+                }
+
+                var result = await _shippingsService.UpdateShippings(id, shippingsDto);
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+        }
+
+        [Authorize]
+        [HttpDelete("shipping/{id}")]
+        public async Task<ActionResult> DeleteShippings(int id)
+        {
+            await _shippingsService.RemoveShippings(id);
+            return Ok($"Shipping with Id = {id} deleted successfully");
+        }
+
+    }
+}

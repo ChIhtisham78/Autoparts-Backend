@@ -1,0 +1,54 @@
+-- Table: Profiles
+CREATE TABLE IF NOT EXISTS "Profiles" (
+    "Id" SERIAL PRIMARY KEY,
+    "Avatar" VARCHAR(255),
+    "Bio" TEXT,
+    "Contact" VARCHAR(255),
+    "CreatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "CustomerId" INT,
+    "Socials" TEXT,
+    "UpdatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY ("CustomerId") REFERENCES "AspNetUsers"("Id"),	
+);
+
+ALTER TABLE "Profiles"
+ADD COLUMN "ImageId" INT,
+ADD COLUMN "SocialId" INT;
+
+-- Adding foreign key constraints to the newly added columns
+ALTER TABLE "Profiles"
+ADD CONSTRAINT fk_image
+FOREIGN KEY ("ImageId") REFERENCES "Images"("Id");
+
+ALTER TABLE "Profiles"
+ADD CONSTRAINT fk_social
+FOREIGN KEY ("SocialId") REFERENCES "Socials"("Id");
+
+
+-- Table: Socials
+CREATE TABLE IF NOT EXISTS "Socials" (
+    "Id" SERIAL PRIMARY KEY,
+    "ShopId" INT,
+    "Url" TEXT,
+	"Type" TEXT,
+	"Link" TEXT,
+    "Icon" VARCHAR(255),
+    FOREIGN KEY ("ShopId") REFERENCES "Shops"("Id")
+);
+
+DO $$
+BEGIN
+    -- Add "Type" column if it does not exist
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name = 'Socials' 
+                   AND column_name = 'Type') THEN
+        ALTER TABLE "Socials" ADD COLUMN "Type" TEXT;
+    END IF;
+
+    -- Add "Link" column if it does not exist
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns 
+                   WHERE table_name = 'Socials' 
+                   AND column_name = 'Link') THEN
+        ALTER TABLE "Socials" ADD COLUMN "Link" TEXT;
+    END IF;
+END $$;

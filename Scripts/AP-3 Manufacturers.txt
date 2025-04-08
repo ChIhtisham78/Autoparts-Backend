@@ -1,0 +1,42 @@
+
+-- Create Manufactures table
+CREATE TABLE IF NOT EXISTS "Manufactures" (
+    "Id" SERIAL PRIMARY KEY,
+    "Name" VARCHAR(255) NOT NULL,
+    "Slug" VARCHAR(255),
+    "Language" VARCHAR(50),
+    "TranslatedLanguages" TEXT,
+    "ProductsCount" INT,
+    "IsApproved" BOOLEAN,
+"SocialId" INT,
+"TypeId" INT,
+    "ImageId" INT,
+    "Description" TEXT,
+    "Website" VARCHAR(255),
+    "CreatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "UpdatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+FOREIGN KEY ("ImageId") REFERENCES "Images"("Id"),
+ FOREIGN KEY ("SocialId") REFERENCES "Socials"("Id"),
+ FOREIGN KEY ("TypeId") REFERENCES "Types"("Id")
+
+);
+
+
+-- Create Types table
+CREATE TABLE IF NOT EXISTS "Types" (
+    "Id" SERIAL PRIMARY KEY,
+    "Name" VARCHAR(255) NOT NULL,
+    "Slug" VARCHAR(255),
+    "Logo" VARCHAR(255)
+);
+-- Create ManufacturerType table (assuming many-to-one relationship between Manufacturers and Types)
+CREATE TABLE IF NOT EXISTS "ManufacturerType" (
+    "ManufacturerId" INT,
+    "TypeId" INT,
+    PRIMARY KEY ("ManufacturerId", "TypeId"),
+    FOREIGN KEY ("ManufacturerId") REFERENCES "Manufactures"("Id"),
+    FOREIGN KEY ("TypeId") REFERENCES "Types"("Id")
+);
+
+
+

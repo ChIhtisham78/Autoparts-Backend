@@ -1,0 +1,26 @@
+-- Create "Banners" table
+CREATE TABLE IF NOT EXISTS "Banners" (
+    "Id" SERIAL PRIMARY KEY,
+    "Title" VARCHAR(255),
+    "TypeId" INT,
+    "Description" TEXT,
+    "ImageId"  INT,
+    "Created_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "Updated_at" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+	FOREIGN KEY ("TypeId")  REFERENCES "Types"("Id"),
+	FOREIGN KEY ("ImageId")  REFERENCES "Images"("Id")	
+);
+
+
+ALTER TABLE "Manufactures"
+ADD COLUMN "BannerId" INT,
+ADD COLUMN "PromotionalSliderId" INT;
+
+ALTER TABLE "Manufactures"
+ADD CONSTRAINT fk_banner
+FOREIGN KEY ("BannerId") REFERENCES "Banners"("Id");
+
+ALTER TABLE "Manufactures"
+ADD CONSTRAINT fk_promotionalslider
+FOREIGN KEY ("PromotionalSliderId") REFERENCES "PromotionalSliders"("Id");

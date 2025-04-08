@@ -1,0 +1,31 @@
+-- Add columns to OrderLines table
+ALTER TABLE "OrderLines"
+    ADD COLUMN "Amount" DECIMAL,
+    ADD COLUMN "SalesTax" DECIMAL,
+    ADD COLUMN "Total" DECIMAL,
+    ADD COLUMN "PaidTotal" DECIMAL,
+    ADD COLUMN "Discount" DECIMAL,
+    ADD COLUMN "DeliveryFee" DECIMAL,
+    ADD COLUMN "Delivery_Time" VARCHAR(100),
+    ADD COLUMN "Language" VARCHAR(50);
+
+
+
+
+
+-- Table: Addresses
+CREATE TABLE IF NOT EXISTS "ShippingAddress" (
+    "Id" SERIAL PRIMARY KEY,
+    "Title" VARCHAR(255),
+    "Type" VARCHAR(100),
+    "IsDefault" SMALLINT,
+    "OrderId" INT,
+    "Zip" VARCHAR(10),
+    "City" VARCHAR(100),
+    "State" VARCHAR(100),
+    "Country" VARCHAR(100),
+    "StreetAddress" TEXT,
+    "CreatedAt" TIMESTAMP,
+    "UpdatedAt" TIMESTAMP,
+    FOREIGN KEY ("OrderId") REFERENCES "Orders"("Id")
+);

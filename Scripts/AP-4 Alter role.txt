@@ -1,0 +1,4 @@
+-- Update role names
+UPDATE "AspNetRoles" SET "Name" = 'super_admin' WHERE "Name" = 'SuperAdmin';
+UPDATE "AspNetRoles" SET "Name" = 'store_owner' WHERE "Name" = 'Vendor';
+UPDATE "AspNetRoles" SET "Name" = 'customer' WHERE "Name" = 'User';

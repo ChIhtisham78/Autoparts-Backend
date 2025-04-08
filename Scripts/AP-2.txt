@@ -1,0 +1,39 @@
+-- Table: Types
+CREATE TABLE IF NOT EXISTS "Types" (
+    "Id" SERIAL PRIMARY KEY,
+    "Name" VARCHAR(255),
+    "Language" VARCHAR(10),
+    "Settings" JSON,
+    "Slug" VARCHAR(255),
+    "Icon" VARCHAR(255),
+    "CreatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "UpdatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Table: PromotionalSliders
+CREATE TABLE IF NOT EXISTS "PromotionalSliders" (
+    "Id" SERIAL PRIMARY KEY,
+    "TypeId" INT,
+    "OriginalUrl" TEXT,
+    "ThumbnailUrl" TEXT,
+    "CreatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "UpdatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY ("TypeId") REFERENCES "Types"("Id")
+);
+
+-- Table: CategoryTranslations
+CREATE TABLE IF NOT EXISTS "CategoryTranslations" (
+    "Id" SERIAL PRIMARY KEY,
+    "CategoryId" INT,
+    "Language" VARCHAR(10),
+    FOREIGN KEY ("CategoryId") REFERENCES "Categories"("Id")
+);
+
+-- Update the Categories table to add TypeId
+ALTER TABLE "Categories"
+ADD COLUMN "TypeId" INT,
+ADD FOREIGN KEY ("TypeId") REFERENCES "Types"("Id");
+
+-- Update the Products table to add TypeId
+ALTER TABLE "Products"
+ADD FOREIGN KEY ("TypeId") REFERENCES "Types"("Id");

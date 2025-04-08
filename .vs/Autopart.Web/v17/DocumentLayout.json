@@ -1,0 +1,130 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\RepoAutoparts\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{9F50F007-8818-483A-8B02-BD1E68ABA86D}|Autopart.Web\\Autopart.Api.csproj|d:\\repoautoparts\\autopart.web\\controllers\\orderscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F50F007-8818-483A-8B02-BD1E68ABA86D}|Autopart.Web\\Autopart.Api.csproj|solutionrelative:autopart.web\\controllers\\orderscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{95425281-B177-4E00-95F7-5008B9C170C4}|Autopart.Application\\Autopart.Application.csproj|d:\\repoautoparts\\autopart.application\\interfaces\\iordersservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{95425281-B177-4E00-95F7-5008B9C170C4}|Autopart.Application\\Autopart.Application.csproj|solutionrelative:autopart.application\\interfaces\\iordersservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{95425281-B177-4E00-95F7-5008B9C170C4}|Autopart.Application\\Autopart.Application.csproj|d:\\repoautoparts\\autopart.application\\services\\ordersservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{95425281-B177-4E00-95F7-5008B9C170C4}|Autopart.Application\\Autopart.Application.csproj|solutionrelative:autopart.application\\services\\ordersservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2512B8F1-E8A7-4E3E-89D4-29B9DC4478D9}|Autopart.Domain\\Autopart.Domain.csproj|d:\\repoautoparts\\autopart.domain\\interfaces\\iordersrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2512B8F1-E8A7-4E3E-89D4-29B9DC4478D9}|Autopart.Domain\\Autopart.Domain.csproj|solutionrelative:autopart.domain\\interfaces\\iordersrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5E6F6CE0-2748-4AE7-9165-5B2337C7948F}|Autopart.Data\\Autopart.Data.csproj|d:\\repoautoparts\\autopart.data\\repositories\\ordersrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5E6F6CE0-2748-4AE7-9165-5B2337C7948F}|Autopart.Data\\Autopart.Data.csproj|solutionrelative:autopart.data\\repositories\\ordersrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 7,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IOrdersService.cs",
+              "DocumentMoniker": "D:\\RepoAutoparts\\Autopart.Application\\Interfaces\\IOrdersService.cs",
+              "RelativeDocumentMoniker": "Autopart.Application\\Interfaces\\IOrdersService.cs",
+              "ToolTip": "D:\\RepoAutoparts\\Autopart.Application\\Interfaces\\IOrdersService.cs",
+              "RelativeToolTip": "Autopart.Application\\Interfaces\\IOrdersService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-07T15:44:57.861Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:131:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:133:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "OrdersController.cs",
+              "DocumentMoniker": "D:\\RepoAutoparts\\Autopart.Web\\Controllers\\OrdersController.cs",
+              "RelativeDocumentMoniker": "Autopart.Web\\Controllers\\OrdersController.cs",
+              "ToolTip": "D:\\RepoAutoparts\\Autopart.Web\\Controllers\\OrdersController.cs",
+              "RelativeToolTip": "Autopart.Web\\Controllers\\OrdersController.cs",
+              "ViewState": "AgIAAEwAAAAAAAAAAAAcwG4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-07T15:45:19.503Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "OrdersRepository.cs",
+              "DocumentMoniker": "D:\\RepoAutoparts\\Autopart.Data\\Repositories\\OrdersRepository.cs",
+              "RelativeDocumentMoniker": "Autopart.Data\\Repositories\\OrdersRepository.cs",
+              "ToolTip": "D:\\RepoAutoparts\\Autopart.Data\\Repositories\\OrdersRepository.cs",
+              "RelativeToolTip": "Autopart.Data\\Repositories\\OrdersRepository.cs",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAAAEUAAABSAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-07T15:45:15.118Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IOrdersRepository.cs",
+              "DocumentMoniker": "D:\\RepoAutoparts\\Autopart.Domain\\Interfaces\\IOrdersRepository.cs",
+              "RelativeDocumentMoniker": "Autopart.Domain\\Interfaces\\IOrdersRepository.cs",
+              "ToolTip": "D:\\RepoAutoparts\\Autopart.Domain\\Interfaces\\IOrdersRepository.cs",
+              "RelativeToolTip": "Autopart.Domain\\Interfaces\\IOrdersRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAgAAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-07T15:45:11.738Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "OrdersService.cs",
+              "DocumentMoniker": "D:\\RepoAutoparts\\Autopart.Application\\Services\\OrdersService.cs",
+              "RelativeDocumentMoniker": "Autopart.Application\\Services\\OrdersService.cs",
+              "ToolTip": "D:\\RepoAutoparts\\Autopart.Application\\Services\\OrdersService.cs",
+              "RelativeToolTip": "Autopart.Application\\Services\\OrdersService.cs",
+              "ViewState": "AgIAAFYAAAAAAAAAAAAIwF8AAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-07T15:45:09.397Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

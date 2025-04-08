@@ -1,0 +1,258 @@
+
+
+-- Table: Images
+CREATE TABLE IF NOT EXISTS "Images" (
+    "Id" SERIAL PRIMARY KEY,
+    "OriginalUrl" TEXT,
+    "ThumbnailUrl" TEXT,
+	 "CreatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "UpdatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Table: Shops
+CREATE TABLE IF NOT EXISTS "Shops" (
+    "Id" SERIAL PRIMARY KEY,
+    "OwnerId" INT,
+    "Name" VARCHAR(255),
+    "Slug" VARCHAR(255),
+    "Description" TEXT,
+    "CoverImageId" INT,
+    "LogoImageId" INT,
+    "IsActive" BOOLEAN,
+    "CreatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "UpdatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY ("CoverImageId") REFERENCES "Images"("Id"),
+    FOREIGN KEY ("LogoImageId") REFERENCES "Images"("Id")
+);
+
+-- Table: AspNetRoles
+CREATE TABLE IF NOT EXISTS "AspNetRoles" (
+    "Id" SERIAL PRIMARY KEY,
+    "ConcurrencyStamp" TEXT,
+    "Name" VARCHAR(256),
+    "NormalizedName" VARCHAR(256)
+);
+
+-- Table: AspNetUsers
+CREATE TABLE IF NOT EXISTS "AspNetUsers" (
+    "Id" SERIAL PRIMARY KEY,
+    "AccessFailedCount" INT,
+    "ConcurrencyStamp" VARCHAR(255),
+    "Email" VARCHAR(256),
+    "EmailConfirmed" BOOLEAN,
+    "LockoutEnabled" BOOLEAN,
+    "LockoutEnd" TIMESTAMP,
+    "NormalizedEmail" VARCHAR(256),
+    "NormalizedUserName" VARCHAR(256),
+    "PasswordHash" TEXT,
+    "PhoneNumber" VARCHAR(20),
+    "PhoneNumberConfirmed" BOOLEAN,
+    "SecurityStamp" VARCHAR(255),
+    "TwoFactorEnabled" BOOLEAN,
+    "UserName" VARCHAR(255),
+    "CreatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "UpdatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "IsActive" SMALLINT DEFAULT 0,
+    "ShopId" INT REFERENCES "Shops"("Id") ON DELETE SET NULL
+);
+
+-- Table: AspNetUserClaims
+CREATE TABLE IF NOT EXISTS "AspNetUserClaims" (
+    "Id" SERIAL PRIMARY KEY,
+    "ClaimType" TEXT,
+    "ClaimValue" TEXT,
+    "UserId" INT NOT NULL REFERENCES "AspNetUsers"("Id") ON DELETE CASCADE
+);
+
+-- Table: AspNetUserRoles
+CREATE TABLE IF NOT EXISTS "AspNetUserRoles" (
+    "Id" SERIAL PRIMARY KEY,
+    "UserId" INT REFERENCES "AspNetUsers"("Id") ON DELETE CASCADE,
+    "RoleId" INT REFERENCES "AspNetRoles"("Id") ON DELETE CASCADE
+);
+
+-- Table: AspNetUserTokens
+CREATE TABLE IF NOT EXISTS "AspNetUserTokens" (
+    "UserId" INT,
+    "LoginProvider" VARCHAR(450),
+    "Name" VARCHAR(450),
+    "Value" TEXT,
+    PRIMARY KEY ("UserId", "LoginProvider", "Name"),
+    FOREIGN KEY ("UserId") REFERENCES "AspNetUsers"("Id") ON DELETE CASCADE
+);
+
+-- Table: AspNetUserLogins
+CREATE TABLE IF NOT EXISTS "AspNetUserLogins" (
+    "LoginProvider" VARCHAR(450) NOT NULL,
+    "ProviderKey" VARCHAR(450) NOT NULL,
+    "ProviderDisplayName" VARCHAR(255),
+    "UserId" INT,
+    PRIMARY KEY ("LoginProvider", "ProviderKey"),
+    FOREIGN KEY ("UserId") REFERENCES "AspNetUsers"("Id") ON DELETE CASCADE
+);
+
+-- Table: AspNetRoleClaims
+CREATE TABLE IF NOT EXISTS "AspNetRoleClaims" (
+    "Id" SERIAL PRIMARY KEY,
+    "ClaimType" VARCHAR(255),
+    "ClaimValue" TEXT,
+    "RoleId" INT REFERENCES "AspNetRoles"("Id") ON DELETE CASCADE
+);
+
+
+
+-- Table: Addresses
+CREATE TABLE IF NOT EXISTS "Addresses" (
+    "Id" SERIAL PRIMARY KEY,
+    "Title" VARCHAR(255),
+    "Type" VARCHAR(100),
+    "IsDefault" SMALLINT,
+    "ShopId" INT,
+    "Zip" VARCHAR(10),
+    "City" VARCHAR(100),
+    "State" VARCHAR(100),
+    "Country" VARCHAR(100),
+    "StreetAddress" TEXT,
+    "UserId" INT,
+    "CreatedAt" TIMESTAMP,
+    "UpdatedAt" TIMESTAMP,
+    FOREIGN KEY ("ShopId") REFERENCES "Shops"("Id"),
+    FOREIGN KEY ("UserId") REFERENCES "AspNetUsers"("Id")
+);
+
+
+
+-- Table: Settings
+CREATE TABLE IF NOT EXISTS "Settings" (
+    "ShopId" INT PRIMARY KEY,
+    "Contact" VARCHAR(20),
+    "Website" TEXT,
+    "LocationLat" NUMERIC(10, 8),
+    "LocationLng" NUMERIC(11, 8),
+    "LocationCity" VARCHAR(100),
+    "LocationState" VARCHAR(100),
+    "LocationCountry" VARCHAR(100),
+    "LocationFormattedAddress" TEXT,
+    FOREIGN KEY ("ShopId") REFERENCES "Shops"("Id")
+);
+
+-- Table: Socials
+CREATE TABLE IF NOT EXISTS "Socials" (
+    "Id" SERIAL PRIMARY KEY,
+    "ShopId" INT,
+    "Url" TEXT,
+    "Icon" VARCHAR(255),
+    FOREIGN KEY ("ShopId") REFERENCES "Shops"("Id")
+);
+
+-- Table: Categories
+CREATE TABLE IF NOT EXISTS "Categories" (
+    "Id" SERIAL PRIMARY KEY,
+    "Name" VARCHAR(255),
+    "Slug" VARCHAR(255),
+    "Language" VARCHAR(10),
+    "Icon" VARCHAR(255),
+    "ParentId" INT,
+    "CreatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "UpdatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "DeletedAt" TIMESTAMP,
+    FOREIGN KEY ("ParentId") REFERENCES "Categories"("Id")
+);
+
+-- Table: Products
+CREATE TABLE IF NOT EXISTS "Products" (
+    "Id" SERIAL PRIMARY KEY,
+    "Name" VARCHAR(255),
+    "Slug" VARCHAR(255),
+    "Description" TEXT,
+    "TypeId" INT,
+    "Price" NUMERIC(10, 2),
+    "ShopId" INT,
+    "SalePrice" NUMERIC(10, 2),
+    "Language" VARCHAR(10),
+    "MinPrice" NUMERIC(10, 2),
+    "MaxPrice" NUMERIC(10, 2),
+    "Sku" VARCHAR(50),
+    "Quantity" INT,
+    "InStock" BOOLEAN,
+    "IsTaxable" BOOLEAN,
+    "ShippingClassId" INT,
+    "Status" VARCHAR(50),
+    "ProductType" VARCHAR(50),
+    "Unit" VARCHAR(50),
+    "Height" NUMERIC(10, 2),
+    "Width" NUMERIC(10, 2),
+    "Length" NUMERIC(10, 2),
+    "ImageId" INT,
+    "CreatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "UpdatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "DeletedAt" TIMESTAMP,
+    "AuthorId" INT,
+    "ManufacturerId" INT,
+    "IsDigital" BOOLEAN,
+    "IsExternal" BOOLEAN,
+    "ExternalProductUrl" TEXT,
+    "ExternalProductButtonText" VARCHAR(255),
+    "Ratings" NUMERIC(3, 2),
+    "TotalReviews" INT,
+    "MyReview" TEXT,
+    "InWishlist" BOOLEAN,
+    FOREIGN KEY ("ShopId") REFERENCES "Shops"("Id"),
+    FOREIGN KEY ("ImageId") REFERENCES "Images"("Id")
+);
+
+-- Table: Galleries
+CREATE TABLE IF NOT EXISTS "Galleries" (
+    "Id" SERIAL PRIMARY KEY,
+    "ProductId" INT,
+    "OriginalUrl" TEXT,
+    "ThumbnailUrl" TEXT,
+    FOREIGN KEY ("ProductId") REFERENCES "Products"("Id")
+);
+
+-- Table: Categories_Products
+CREATE TABLE IF NOT EXISTS "Categories_Products" (
+    "ProductId" INT,
+    "CategoryId" INT,
+    PRIMARY KEY ("ProductId", "CategoryId"),
+    FOREIGN KEY ("ProductId") REFERENCES "Products"("Id"),
+    FOREIGN KEY ("CategoryId") REFERENCES "Categories"("Id")
+);
+
+-- Table: Ratings
+CREATE TABLE IF NOT EXISTS "Ratings" (
+    "ProductId" INT,
+    "Rating" INT,
+    "Total" INT,
+    "PositiveFeedbacksCount" INT,
+    "NegativeFeedbacksCount" INT,
+    "MyFeedback" TEXT,
+    "AbusiveReportsCount" INT,
+    PRIMARY KEY ("ProductId", "Rating"),
+    FOREIGN KEY ("ProductId") REFERENCES "Products"("Id")
+);
+
+-- Table: Profiles
+CREATE TABLE IF NOT EXISTS "Profiles" (
+    "Id" SERIAL PRIMARY KEY,
+    "Avatar" VARCHAR(255),
+    "Bio" TEXT,
+    "Contact" VARCHAR(255),
+    "CreatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "CustomerId" INT,
+    "Socials" TEXT,
+    "UpdatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY ("CustomerId") REFERENCES "AspNetUsers"("Id")
+);
+
+-- Table: Temp
+CREATE TABLE IF NOT EXISTS "Temp" (
+    "Id" SERIAL PRIMARY KEY,
+    "Name" VARCHAR(255) NOT NULL
+);
+
+
+
+
+
+
