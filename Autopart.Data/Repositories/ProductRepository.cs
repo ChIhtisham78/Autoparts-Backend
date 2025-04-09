@@ -2,6 +2,7 @@
 using Autopart.Domain.Interfaces;
 using Autopart.Domain.Models;
 using Autopart.Domain.SharedKernel;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.EntityFrameworkCore;
 using static Autopart.Domain.Enum.EnumAndConsonent;
 
@@ -56,20 +57,29 @@ namespace Autopart.Data.Repositories
 
 
 
-        public async Task<IEnumerable<Product>> GetWishlistProductsByUserIdAsync(int userId)
+        public async Task<IEnumerable<GetWishlistProductsDto>> GetWishlistProductsByUserIdAsync(int userId)
         {
-            return await _context.UserWishlists
-                .Where(uw => uw.UserId == userId)
-                .Include(uw => uw.Product)
-                .ThenInclude(p => p.Image)
-                .Select(uw => uw.Product)
-                .ToListAsync();
+            var query = from uw in _context.UserWishlists
+                        join p in _context.Products on uw.ProductId equals p.Id into productJoined
+                        from p in productJoined.DefaultIfEmpty()
+                        join i in _context.Images on p.ImageId equals i.Id into imageJoined
+                        from i in imageJoined.DefaultIfEmpty()
+                        where uw.UserId == userId
+                        select new GetWishlistProductsDto
+                        {
+                            UserWishlist = uw,
+                            Product = p,
+                            Image = i
+                        };
+
+            return await query.ToListAsync();
         }
+
 
 
         public async Task<IEnumerable<Product>> GetWishlistProductsByProductIdAsync(int productId)
         {
-            return await _context.UserWishlists
+                return await _context.UserWishlists
                 .Where(uw => uw.ProductId == productId)
                     .Include(uw => uw.Product)
                 .ThenInclude(p => p.Image)
@@ -385,7 +395,7 @@ namespace Autopart.Data.Repositories
         {
             return await _context.Tags.ToListAsync();
         }
-        public async Task<List<Author>> GetAuthorsByProduct()
+        public async Task<List<Domain.Models.Author>> GetAuthorsByProduct()
         {
             return await _context.Authors.ToListAsync();
         }
@@ -554,7 +564,7 @@ namespace Autopart.Data.Repositories
             }
         }
 
-        public async Task<Author> AddAuthorAsync(Author author)
+        public async Task<Domain.Models.Author> AddAuthorAsync(Domain.Models.Author author)
         {
             try
             {
@@ -703,7 +713,7 @@ namespace Autopart.Data.Repositories
 
         }
 
-        public async Task UpdateAuthorAsync(Author author)
+        public async Task UpdateAuthorAsync(Domain.Models.Author author)
         {
             try
             {

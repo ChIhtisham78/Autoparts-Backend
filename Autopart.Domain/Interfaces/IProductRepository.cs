@@ -16,7 +16,7 @@ namespace Autopart.Domain.Interfaces
         Task<ManufacturerModel> GetManufactureModelByIdAsync(int id);
         Task<Engine> GetEngineByIdAsync(int id);
         Task<Product> GetWishlistProductAsync(int userId, int productId);
-        Task<IEnumerable<Product>> GetWishlistProductsByUserIdAsync(int userId);
+        Task<IEnumerable<GetWishlistProductsDto>> GetWishlistProductsByUserIdAsync(int userId);
         Task<IEnumerable<Product>> GetWishlistProductsByProductIdAsync(int productId);
         Task<bool> DeleteWishlistProductsByProductIdAsync(int productId);
         Task AddProductToWishlistAsync(int userId, int productId);

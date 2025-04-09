@@ -48,167 +48,36 @@ namespace Autopart.Application.Services
         {
             var wishlistProducts = await _context.GetWishlistProductsByUserIdAsync(userId);
 
-            var result = new List<ProductDtoResponse>();
-
-            foreach (var product in wishlistProducts)
+            var finalresult = wishlistProducts.Select(q =>
             {
-                var category = product.CategoryId.HasValue
-                    ? await _context.GetCategoryByIdAsync(product.CategoryId.Value)
-                    : null;
+                var product = q.Product;
+                if (product == null) return null;
 
-                var shopAddress = product.ShopId.HasValue
-                    ? await _context.GetShopAddressById(product.ShopId.Value)
-                    : null;
+                var shippingPrice = product.Category != null && product.ShopId.HasValue
+                    ? _context.GetSVCRelationByShopIdAndSizeAsync(product.ShopId.Value, product.Category.Size).Result?.Price ?? 0
+                    : 0;
 
-                var shop = product.ShopId.HasValue
-                    ? await _context.GetShopByProductId(product.ShopId.Value)
-                    : null;
-
-                var setting = await _context.GetSettingByProductId(product.Id);
-                var rating = await _context.GetRatingByProductId(product.Id);
-                var gallery = await _context.GetGalleryByProductId(product.Id);
-                var promotional = await _context.GetPromotionalByProductId(product.Id);
-
-                var image = product.Image;
-                // Fetch the shipping charges based on the product's category size and Shop ID
-
-                decimal shippingCharges = 0;
-                if (category != null && product.ShopId.HasValue)
-                {
-                    var svcRelation = await _context.GetSVCRelationByShopIdAndSizeAsync(product.ShopId.Value, category.Size);
-                    if (svcRelation != null)
-                    {
-                        shippingCharges = svcRelation.Price ?? 0;
-                    }
-                }
-
-                // Calculate total price
-                decimal totalPrice = (product.Price ?? 0) + shippingCharges;
-
-                var shopAddressDto = shopAddress != null
-                    ? new ShopAddressDto
-                    {
-                        Id = shopAddress.Id,
-                        Country = shopAddress.Country,
-                        City = shopAddress.City,
-                        State = shopAddress.State,
-                        Zip = shopAddress.Zip,
-                        StreetAddress = shopAddress.StreetAddress,
-                        ShopId = shopAddress.ShopId
-                    }
-                    : null;
-
-                var ratingDto = rating != null
-                    ? new RatingDto
-                    {
-                        Rating1 = rating.Rating1,
-                        PositiveFeedbacksCount = rating.PositiveFeedbacksCount,
-                        NegativeFeedbacksCount = rating.NegativeFeedbacksCount,
-                        AbusiveReportsCount = rating.AbusiveReportsCount,
-                        Total = rating.Total
-                    }
-                    : null;
-
-                var categoryDto = category != null
-                    ? new CategoryDto
-                    {
-                        Id = category.Id,
-                        Name = category.Name,
-                        Slug = category.Slug,
-                        Icon = category.Icon,
-                        ParentId = category.ParentId,
-                        Language = category.Language,
-                        CreatedAt = category.CreatedAt,
-                        UpdatedAt = category.UpdatedAt,
-                        DeletedAt = category.DeletedAt,
-                        TypeId = category.TypeId
-                    }
-                    : null;
-
-                var settingDto = setting != null
-                    ? new SettingDto
-                    {
-                        Contact = setting.Contact,
-                        Website = setting.Website,
-                        LocationLat = setting.LocationLat,
-                        LocationLng = setting.LocationLng,
-                        LocationCity = setting.LocationCity,
-                        LocationState = setting.LocationState,
-                        LocationCountry = setting.LocationCountry,
-                        LocationFormattedAddress = setting.LocationFormattedAddress,
-                        LocationZip = setting.LocationZip
-                    }
-                    : null;
-
-                string logoUrl = null!;
-                if (shop != null)
-                {
-                    if (shop.LogoImageId.HasValue)
-                    {
-                        var logo = await _shopRepository.GetImageById(shop.LogoImageId.Value);
-                        if (logo != null && _rootFolder != null && !string.IsNullOrEmpty(_rootFolder.ApplicationUrl))
-                        {
-                            logoUrl = logo;
-                        }
-                    }
-                }
-
-                var shopDto = shop != null
-                    ? new ShopDto
-                    {
-                        Id = shop.Id,
-                        Name = shop.Name,
-                        Slug = shop.Slug,
-                        Description = shop.Description,
-                        IsActive = shop.IsActive,
-                        Logo = logoUrl,
-                        OwnerId = shop.OwnerId
-                    }
-                    : null;
-
-                var promotionalSliderDto = promotional != null
-                    ? new PromotionalSliderDto
-                    {
-                        Id = promotional.Id,
-                        OriginalUrl = promotional.OriginalUrl,
-                        ThumbnailUrl = promotional.ThumbnailUrl
-                    }
-                    : null;
-
-                var productGalleryImageDto = gallery != null
-                    ? new ProductGalleryImageDto
-                    {
-                        Id = gallery.Id,
-                        OriginalUrl = gallery.OriginalUrl,
-                        ThumbnailUrl = gallery.ThumbnailUrl
-                    }
-                    : null;
-
-                var imageDto = image != null
-                        ? new ImageDto
-                        {
-                            Id = image.Id,
-                            OriginalUrl = image.OriginalUrl,
-                            ThumbnailUrl = image.ThumbnailUrl
-                        }
-                        : null;
-
-                var res = new ProductDtoResponse
+                return new ProductDtoResponse
                 {
                     Id = product.Id,
                     Name = product.Name,
                     Slug = product.Slug,
                     Description = product.Description,
                     SubPrice = product.Price,
-                    TypeId = product.TypeId,
+                    ShippingCharges = shippingPrice,
+                    Price = (product.Price ?? 0) + shippingPrice,
                     ShopId = product.ShopId,
-                    SalePrice = product.SalePrice,
-                    Language = product.Language,
-                    MaxPrice = product.MaxPrice,
-                    MinPrice = product.MinPrice,
-                    Quantity = product.Quantity,
-                    Sku = product.Sku,
-                    InStock = product.InStock,
+                    Model = product.Model,
+                    IsDigital = product.IsDigital,
+                    CreatedAt = product.CreatedAt,
+                    UpdatedAt = product.UpdatedAt,
+                    DeletedAt = product.DeletedAt,
+                    IsExternal = product.IsExternal,
+                    ExternalProductUrl = product.ExternalProductUrl,
+                    ExternalProductButtonText = product.ExternalProductButtonText,
+                    Ratings = product.RatingsNavigation?.FirstOrDefault()?.Total ?? 0,
+                    TotalReviews = product.TotalReviews ?? 0,
+                    MyReview = product.MyReview,
                     IsTaxable = product.IsTaxable,
                     ShippingClassId = product.ShippingClassId,
                     Status = product.Status,
@@ -217,27 +86,26 @@ namespace Autopart.Application.Services
                     Height = product.Height,
                     Width = product.Width,
                     Length = product.Length,
-                    DeletedAt = product.DeletedAt,
-                    CreatedAt = product.CreatedAt,
-                    UpdatedAt = product.UpdatedAt,
-                    TotalReviews = product.TotalReviews,
-                    ManufacturerId = product.ManufacturerId,
-                    IsDigital = product.IsDigital,
-                    ExternalProductButtonText = product.ExternalProductButtonText,
-                    ExternalProductUrl = product.ExternalProductUrl,
-                    IsExternal = product.IsExternal,
-                    Ratings = product.Ratings,
-                    MyReview = product.MyReview,
                     ImageId = product.ImageId,
-                    AuthorId = product.AuthorId,
                     InWishlist = product.InWishlist,
+                    SalePrice = product.SalePrice,
+                    MinPrice = product.MinPrice ?? 0,
+                    MaxPrice = product.MaxPrice ?? 0,
+                    Quantity = product.Quantity ?? 0,
+                    Sku = product.Sku,
+                    TypeId = product.TypeId,
+                    AuthorId = product.AuthorId,
+                    ManufacturerId = product.ManufacturerId,
+                    Language = product.Language,
+                    InStock = product.InStock,
                     Year = product.Year,
-                    Model = product.Model,
+                    Mdoel = product.Model,
                     Mileage = product.Mileage,
                     Grade = product.Grade,
                     Damage = product.Damage,
                     TrimLevel = product.TrimLevel,
                     EngineId = product.EngineId,
+                    ModelId = product.ModelId,
                     Transmission = product.Transmission,
                     Drivetrain = product.Drivetrain,
                     NewUsed = product.NewUsed,
@@ -251,25 +119,92 @@ namespace Autopart.Application.Services
                     Vin = product.Vin,
                     Core = product.Core,
                     Color = product.Color,
-                    ShippingCharges = shippingCharges,
-                    Price = totalPrice,
 
+                    CategoryDto = product.Category != null ? new CategoryDto
+                    {
+                        Id = product.Category.Id,
+                        Name = product.Category.Name,
+                        Slug = product.Category.Slug,
+                        Language = product.Category.Language,
+                        Icon = product.Category.Icon,
+                        CreatedAt = product.Category.CreatedAt,
+                        UpdatedAt = product.Category.UpdatedAt
+                    } : new CategoryDto(),
 
-                    ImageDto = imageDto,
-                    SettingDto = settingDto!,
-                    ShopAddressDto = shopAddressDto,
-                    CategoryDto = categoryDto!,
-                    PromotionalSliderDto = promotionalSliderDto,
-                    ShopDto = shopDto,
-                    ProductGalleryImageDto = productGalleryImageDto,
-                    RatingDto = ratingDto
+                    ImageDto = q.Image != null ? new ImageDto
+                    {
+                        Id = q.Image.Id,
+                        OriginalUrl = q.Image.OriginalUrl,
+                        ThumbnailUrl = q.Image.ThumbnailUrl
+                    } : new ImageDto(),
+
+                    RatingDto = product.RatingsNavigation != null ? new RatingDto
+                    {
+                        Rating1 = product.RatingsNavigation.FirstOrDefault()!.Rating1,
+                        PositiveFeedbacksCount = product.RatingsNavigation.FirstOrDefault()!.PositiveFeedbacksCount,
+                        NegativeFeedbacksCount = product.RatingsNavigation.FirstOrDefault()!.NegativeFeedbacksCount,
+                        AbusiveReportsCount = product.RatingsNavigation.FirstOrDefault()!.AbusiveReportsCount,
+                        Total = product.RatingsNavigation.FirstOrDefault()!.Total
+                    } : new RatingDto(),
+
+                    ShopDto = product.Shop != null ? new ShopDto
+                    {
+                        Id = product.Shop.Id,
+                        Name = product.Shop.Name,
+                        Slug = product.Shop.Slug,
+                        Description = product.Shop.Description,
+                        IsActive = product.Shop.IsActive,
+                        OwnerId = product.Shop.OwnerId,
+                        Logo = product.Shop.LogoImage?.OriginalUrl ?? "",
+                        CoverImage = product.Shop.CoverImage?.ThumbnailUrl ?? ""
+                    } : new ShopDto(),
+
+                    PromotionalSliderDto = product.PromotionalSlider != null ? new PromotionalSliderDto
+                    {
+                        Id = product.PromotionalSlider.Id,
+                        OriginalUrl = product.PromotionalSlider.OriginalUrl,
+                        ThumbnailUrl = product.PromotionalSlider.ThumbnailUrl
+                    } : new PromotionalSliderDto(),
+
+                    ProductGalleryImageDto = product.Galleries?.FirstOrDefault() != null ? new ProductGalleryImageDto
+                    {
+                        Id = product.Galleries.First().Id,
+                        OriginalUrl = product.Galleries.First().OriginalUrl,
+                        ThumbnailUrl = product.Galleries.First().ThumbnailUrl
+                    } : new ProductGalleryImageDto(),
+
+                    SettingDto = product.Shop?.Setting != null ? new SettingDto
+                    {
+                        Contact = product.Shop.Setting.Contact,
+                        Website = product.Shop.Setting.Website,
+                        LocationLat = product.Shop.Setting.LocationLat,
+                        LocationLng = product.Shop.Setting.LocationLng,
+                        LocationCity = product.Shop.Setting.LocationCity,
+                        LocationState = product.Shop.Setting.LocationState,
+                        LocationCountry = product.Shop.Setting.LocationCountry,
+                        LocationFormattedAddress = product.Shop.Setting.LocationFormattedAddress,
+                        LocationZip = product.Shop.Setting.LocationZip
+                    } : new SettingDto(),
+
+                    ShopAddressDto = product.Shop?.Addresses?.FirstOrDefault() != null ? new ShopAddressDto
+                    {
+                        Id = product.Shop.Addresses.First().Id,
+                        Country = product.Shop.Addresses.First().Country,
+                        City = product.Shop.Addresses.First().City,
+                        State = product.Shop.Addresses.First().State,
+                        Zip = product.Shop.Addresses.First().Zip,
+                        StreetAddress = product.Shop.Addresses.First().StreetAddress,
+                        ShopId = product.Shop.Id
+                    } : new ShopAddressDto()
                 };
+            })
+            .Where(p => p != null)
+            .ToList()!;
 
-                result.Add(res);
-            }
-
-            return result;
+            return finalresult!;
         }
+
+
 
 
 
@@ -668,7 +603,7 @@ namespace Autopart.Application.Services
         }
 
 
-            
+
 
         public async Task<List<CategoryProductCountDto>> GetShopsWithCategoryProductCountsAsync(GetProductsDto getProductsDto)
         {
