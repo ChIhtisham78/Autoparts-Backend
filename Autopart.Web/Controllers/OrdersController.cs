@@ -1,6 +1,7 @@
 ﻿using Autopart.Application.Interfaces;
 using Autopart.Application.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -61,9 +62,8 @@ namespace Autopart.Api.Controllers
 		[HttpGet("pending-orders")]
 		public async Task<ActionResult> GetPendingOrders()
 		{
-
-			return Ok(await _ordersService.GetPendingOrders());
-
+			var result = await _ordersService.GetPendingOrders();
+			return Ok(result);
 		}
 
 		[HttpGet("{Id}")]
@@ -116,7 +116,8 @@ namespace Autopart.Api.Controllers
 		[HttpPost("Order")]
 		public async Task<ActionResult> PostOrders([FromBody] AddOrderDto addOrderDto)
 		{
-			return Ok(await _ordersService.AddOrder(addOrderDto));
+			var result = await _ordersService.AddOrder(addOrderDto);
+			return Ok(result);
 		}
 
 

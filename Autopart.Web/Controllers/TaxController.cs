@@ -34,14 +34,17 @@ namespace Autopart.Api.Controllers
 		[HttpGet("tax")]
 		public async Task<ActionResult> GetTax()
 		{
-			return Ok(await _taxService.GetTax());
+			var tax = await _taxService.GetTax();
+			return Ok(tax);
 		}
 
 
 		[HttpGet("tax/{id}")]
 		public async Task<ActionResult> GetTaxById(int id)
 		{
-			return Ok(await _taxService.GetTaxById(id));
+			var taxbyId = await _taxService.GetTaxById(id);
+			return Ok(taxbyId);
+			
 		}
 
 		[Authorize]

@@ -2,6 +2,7 @@
 using Autopart.Application.Models;
 using Autopart.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -23,11 +24,7 @@ namespace Autopart.Api.Controllers
 		public async Task<ActionResult<Tag>> CreateTag([FromBody] TagDto tagDto)
 		{
 			var createdTag = await _tagService.CreateTagAsync(tagDto);
-			return CreatedAtAction(
-					nameof(GetTagById),
-					new { id = createdTag.Id },
-					createdTag
-			);
+			return Ok(createdTag);
 		}
 
 		[HttpGet("tag/{id}")]
