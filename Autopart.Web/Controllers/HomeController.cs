@@ -31,12 +31,22 @@ namespace Autopart.Api.Controllers
         [HttpPut("temp")]
         public async Task<ActionResult> PutTemp(int id, string name)
         {
-            return Ok(await _tempService.UpdateTemp(id, name));
+          var temp = await _tempService.UpdateTemp(id, name);
+            if (temp == null)
+            {
+                return NotFound();
+            }
+            return Ok(temp);
         }
         [HttpGet("temp/{id}")]
         public async Task<ActionResult> GetTemp(int id)
         {
-            return Ok(await _tempService.GetTempById(id));
+            var temp = await _tempService.GetTempById(id);
+            if (temp == null)
+            {
+                return NotFound();
+            }
+            return Ok(temp);
         }
         [HttpDelete("temp/{id}")]
         public async Task<ActionResult> DeleteTemp(int id)
