@@ -59,7 +59,8 @@ namespace Autopart.Api.Controllers
 		[HttpGet("manufacturer/{id}")]
 		public async Task<ActionResult> GetManufacturerById(int id)
 		{
-			return Ok(await _manufacturersService.GetManufacturerById(id));
+			var getManufacturerById = await _manufacturersService.GetManufacturerById(id);
+			return Ok(getManufacturerById);
 		}
 
 		[Authorize]

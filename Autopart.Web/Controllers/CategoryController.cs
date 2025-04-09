@@ -23,11 +23,7 @@ namespace Autopart.Api.Controllers
 		public async Task<ActionResult<Category>> CreateCategory([FromBody] CategoryDto categoryDto)
 		{
 			var createdCategory = await _categoryService.CreateCategoryAsync(categoryDto);
-			return CreatedAtAction(
-					nameof(GetCategoryById),
-					new { id = createdCategory.Id },
-					createdCategory
-			);
+			return Ok(createdCategory);
 		}
 
 		[HttpGet("categoryById/{id}")]
