@@ -54,21 +54,12 @@ namespace Autopart.Api.Controllers
         [HttpPut("shipping")]
         public async Task<ActionResult> PutShippings(int id, [FromBody] ShippingsDto shippingsDto)
         {
-            try
+           var shipping = await _shippingsService.UpdateShippings(id, shippingsDto);
+            if (shipping == null)
             {
-                if (shippingsDto == null)
-                {
-                    return BadRequest("Shipping data is null.");
-                }
-
-                var result = await _shippingsService.UpdateShippings(id, shippingsDto);
-                return Ok(result);
+                return NotFound();
             }
-            catch (Exception)
-            {
-
-                throw;
-            }
+            return Ok(shipping);
 
         }
 
