@@ -20,17 +20,20 @@ namespace Autopart.Api.Controllers
         [HttpGet("addresses")]
         public async Task<ActionResult> GetAddresses()
         {
-
-            return Ok(await _addressService.GetAddresses());
-
+            var getAddress = await _addressService.GetAddresses();
+            return Ok(getAddress);
         }
 
         [HttpGet("address/{id}")]
         public async Task<ActionResult> GetAddress(int id)
         {
-            return Ok(await _addressService.GetAddressById(id));
+            var address = await _addressService.GetAddressById(id);
+            if (address == null)
+            {
+                return NotFound();
+            }
+            return Ok(address);
         }
-
 
         [Authorize]
         [HttpDelete("address/{id}")]
@@ -39,7 +42,6 @@ namespace Autopart.Api.Controllers
             await _addressService.RemoveAddress(id);
             return Ok($"User with Id = {id} deleted successfully");
         }
-
 
         [Authorize]
         [HttpPut("address")]
@@ -61,7 +63,6 @@ namespace Autopart.Api.Controllers
             }
 
         }
-
 
         [Authorize]
         [HttpPost("address")]

@@ -21,25 +21,14 @@ namespace Autopart.Api.Controllers
         [HttpPost("shipping")]
         public async Task<ActionResult> PostShippings([FromBody] ShippingsDto shippingsDto)
         {
-            try
-            {
-                if (shippingsDto == null)
-                {
-                    return BadRequest("Shipping data is null.");
-                }
+            var shippings = await _shippingsService.AddShippings(shippingsDto);
 
-                var result = await _shippingsService.AddShippings(shippingsDto);
-                return Ok(result);
-            }
-            catch (Exception)
-            {
+            if (shippings == null)
+                return NotFound();
 
-                throw;
-            }
-
+            return Ok(shippings);
 
         }
-
 
 
         [HttpGet("shippings")]
@@ -53,7 +42,12 @@ namespace Autopart.Api.Controllers
         [HttpGet("shipping/{id}")]
         public async Task<ActionResult> GetShippingsById(int id)
         {
-            return Ok(await _shippingsService.GetShippingsById(id));
+            var shipping = await _shippingsService.GetShippingsById(id);
+            if (shipping == null)
+            {
+                return NotFound();
+            }
+            return Ok(shipping);
         }
 
         [Authorize]
