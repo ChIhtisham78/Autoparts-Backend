@@ -2,6 +2,7 @@
 using Autopart.Application.Models;
 using Autopart.Domain.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Autopart.Api.Controllers
@@ -26,15 +27,8 @@ namespace Autopart.Api.Controllers
             {
                 return BadRequest("CouponDto or ShopId is null or invalid");
             }
-
-            //var shopId = this.GetCurrentUserId();
-            //couponDto.ShopId = shopId;
             var createdCoupon = await _couponService.CreateCouponAsync(couponDto);
-            return CreatedAtAction(
-                    nameof(GetCouponById),
-                    new { id = createdCoupon.Id },
-                    createdCoupon
-            );
+            return Ok(createdCoupon);
         }
 
         [HttpGet("coupon/{id}")]
@@ -89,16 +83,16 @@ namespace Autopart.Api.Controllers
         public async Task<IActionResult> UpdateCoupon(int id, [FromBody] CouponDto couponDto)
         {
             couponDto.Id = id;
-            await _couponService.UpdateCouponAsync(couponDto);
-            return Ok();
+            var coupon = _couponService.UpdateCouponAsync(couponDto);
+            return Ok(coupon);
         }
 
         [Authorize]
         [HttpDelete("coupons/{id}")]
         public async Task<IActionResult> DeleteCoupon(int id)
         {
-            await _couponService.RemoveCouponAsync(id);
-            return Ok();
+            var deleteCoupon = _couponService.RemoveCouponAsync(id);
+            return Ok(deleteCoupon);
         }
 
         [Authorize]
