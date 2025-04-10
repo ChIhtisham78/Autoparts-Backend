@@ -20,7 +20,9 @@ namespace Autopart.Api.Controllers
 		[HttpPost("question")]
 		public async Task<ActionResult> PostQuestion(QuestionDto questionDto)
 		{
-			return Ok(await _questionService.AddQuestion(questionDto));
+			var postQuestion = await _questionService.AddQuestion(questionDto);
+			return Ok(postQuestion);
+
 		}
 
 		[HttpGet("questions")]
@@ -47,15 +49,11 @@ namespace Autopart.Api.Controllers
 		}
 
 
-
-
-
 		[HttpGet("question/{id}")]
 		public async Task<ActionResult> GetQuestion(int id)
 		{
 			var questions = await _questionService.GetQuestion(id);
 			return Ok(questions);
-
 		}
 
 		[HttpDelete("question/{id}")]

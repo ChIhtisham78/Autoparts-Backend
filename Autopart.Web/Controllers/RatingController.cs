@@ -33,11 +33,11 @@ namespace Autopart.Api.Controllers
 		[HttpPost("review")]
 		public async Task<ActionResult> PostReview(ReviewDto reviewDto)
 		{
-			return Ok(await _ratingService.AddReview(reviewDto));
+			var postReview = await _ratingService.AddReview(reviewDto);
+			return Ok(postReview);
 		}
 		
 		
-
 		[HttpGet("review")]
 		public async Task<ActionResult> GetReviews(int? productId = null, string productSlug = null, int page = 1, int limit = 10)
 		{
@@ -61,11 +61,6 @@ namespace Autopart.Api.Controllers
 			};
 		}
 
-
-      
-
-
-
         [HttpDelete("review/{id}")]
 		public async Task<IActionResult> DeleteReview(int id)
 		{
@@ -78,7 +73,5 @@ namespace Autopart.Api.Controllers
 			return Ok(result);
 		}
 		
-	
-
 	}
 }
