@@ -41,8 +41,8 @@ namespace Autopart.Infrastructure.SendGrid
                 }
             }
 
-            var responce = await client.SendEmailAsync(msg);
-            return responce.IsSuccessStatusCode;
+            var response = await client.SendEmailAsync(msg);
+            return response.IsSuccessStatusCode;
         }
 
         //public class AttachmentModel

@@ -108,8 +108,6 @@ namespace Autopart.Api.Controllers
 			}
 		}
 
-
-
 		[HttpDelete("api/User/user/{id}")]
 		public async Task<ActionResult> DeleteUser(int id)
 		{
