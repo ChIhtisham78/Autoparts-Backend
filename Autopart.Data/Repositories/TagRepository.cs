@@ -25,8 +25,9 @@ namespace Autopart.Data.Repositories
 
 		public async Task<Tag> GetTagByIdAsync(int id)
 		{
-			return await _context.Tags.FindAsync(id);
-		}
+			var tags = await _context.Tags.FindAsync(id);
+            return tags!;
+        }
 
 		public async Task<(IEnumerable<Tag> Tags, int TotalCount)> GetTagsAsync(string param, int pageNumber = 1, int pageSize = 10)
 		{
@@ -51,11 +52,9 @@ namespace Autopart.Data.Repositories
 
 		public async Task<Tag> GetTagBySlug(string slug)
 		{
-			return await _context.Tags.Where(s => s.Slug == slug).FirstOrDefaultAsync();
-		}
-
-
-
+			var tags = await _context.Tags.Where(x => x.Slug == slug).FirstOrDefaultAsync();
+            return tags!;	
+        }
 
 
 		public async Task<IEnumerable<Tag>> GetTagsByName(string name)
