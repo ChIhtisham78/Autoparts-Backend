@@ -21,7 +21,8 @@ namespace Autopart.Data.Repositories
 
         public async Task<Temp> GetTempById(int id)
         {
-            return await _context.Temps.FirstOrDefaultAsync(x => x.Id == id);
+            var temp = await _context.Temps.FirstOrDefaultAsync(x => x.Id == id);
+            return temp!;
         }
 
         public void AddTemp(Temp temp)

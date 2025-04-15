@@ -87,7 +87,8 @@ namespace Autopart.Data.Repositories
 
 		public async Task<bool> SlugExistsAsync(string slug)
 		{
-			return await _context.Tags.AnyAsync(p => p.Slug == slug);
+			var tag = await _context.Tags.AnyAsync(x => x.Slug == slug);
+			return tag;
 		}
 
 
