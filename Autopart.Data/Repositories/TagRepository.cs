@@ -62,8 +62,6 @@ namespace Autopart.Data.Repositories
 			return await _context.Tags.Where(x => x.Name.Contains(name)).ToListAsync();
 		}
 
-
-
 		public async Task UpdateTagAsync(Tag tag)
 		{
 			_context.Tags.Update(tag);

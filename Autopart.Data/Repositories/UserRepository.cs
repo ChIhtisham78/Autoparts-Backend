@@ -91,7 +91,7 @@ namespace Autopart.Data.Repositories
 
 		public async Task<List<AspNetUser>> GetUsersByRole(int roleId)
 		{
-			return await _context.AspNetUsers.Include(x => x.AspNetUserRoles).ThenInclude(x => x.Role).Where(x => x.AspNetUserRoles.FirstOrDefault().RoleId == roleId).ToListAsync();
+			return await _context.AspNetUsers.Include(x => x.AspNetUserRoles).ThenInclude(x => x.Role).Where(x => x.AspNetUserRoles.FirstOrDefault()!.RoleId == roleId).ToListAsync();
 		}
 
 
