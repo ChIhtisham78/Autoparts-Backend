@@ -19,12 +19,14 @@ namespace Autopart.Data.Repositories
 
         public async Task<List<HomePage>> GetHomePagesAsync()
         {
-            return await _context.HomePages.ToListAsync();
+            var getAllPages = await _context.HomePages.ToListAsync();
+            return getAllPages ?? new List<HomePage>();
         }
 
-        public async Task<HomePage> GetByIdAsync(int id)
+        public async Task<HomePage?> GetByIdAsync(int id)
         {
-            return await _context.HomePages.FindAsync(id) ?? new HomePage();
+            var getHomePage = await _context.HomePages.FindAsync(id);
+            return getHomePage ?? new HomePage();
         }
 
         public void UpdateHomePage(HomePage homePage)
