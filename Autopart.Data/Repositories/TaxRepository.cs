@@ -24,21 +24,24 @@ namespace Autopart.Data.Repositories
 
         public async Task<List<Tax>> GetTax()
         {
-            return await _context.Taxes.ToListAsync();
+          var getAllTax = await _context.Taxes.ToListAsync();
+            return getAllTax ?? new List<Tax>();
         }
 
 
 
         public async Task<Tax> GetTaxById(int id)
         {
-            return await _context.Taxes.FindAsync(id);
+            var tax = await _context.Taxes.FindAsync(id);
+            return tax ?? new Tax();
         }
 
 
 
         public async Task<Tax> GetByIdAsync(int id)
         {
-            return await _context.Taxes.FindAsync(id);
+            var tax = await _context.Taxes.FindAsync(id);
+            return tax ?? new Tax();
         }
 
         public void UpdateTax(Tax tax)
