@@ -52,7 +52,7 @@ namespace Autopart.Data.Repositories
 
         public async Task<Tax> GetTaxDelById(int id)
         {
-            return await _context.Taxes.FindAsync(id);
+            return await _context.Taxes.FindAsync(id) ?? new Tax();
         }
 
         public void RemoveTax(Tax tax)
