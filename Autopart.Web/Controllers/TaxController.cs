@@ -23,7 +23,7 @@ namespace Autopart.Api.Controllers
 		{
 			if (taxDto == null)
 			{
-				return BadRequest("Shipping data is null.");
+				return BadRequest("Tax data is null.");
 			}
 
 			var result = await _taxService.AddTax(taxDto);
