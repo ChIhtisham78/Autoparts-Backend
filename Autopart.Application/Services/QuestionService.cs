@@ -44,7 +44,7 @@ namespace Autopart.Application.Services
 			}
 			catch (Exception ex)
 			{
-				throw new Exception("Failed to invalidate JWT token.", ex);
+				throw;
 
 			}
 
@@ -99,12 +99,6 @@ namespace Autopart.Application.Services
 
 			return (questionDtos, totalCount);
 		}
-
-
-
-
-
-
 
 		public async Task<IEnumerable<GetQuestionDto>> GetQuestion(int id)
 		{
