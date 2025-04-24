@@ -53,8 +53,9 @@ namespace Autopart.Data.Repositories
 
 		public async Task<Question> GetByIdAsync(int id)
 		{
-			return await _context.Questions.Include(r => r.Product).Include(r => r.User).FirstOrDefaultAsync(r => r.Id == id) ?? new Question();
-		}
+			var question = await _context.Questions.Include(x=>x.Product).Include(x=>x.User).FirstOrDefaultAsync(x => x.Id == id);
+            return question!;
+        }
 
 		public void Delete(Question question)
 		{
