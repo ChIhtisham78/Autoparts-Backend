@@ -31,7 +31,8 @@ namespace Autopart.Data.Repositories
 
         public async Task<Category?> GetCategoryByName(string name)
         {
-            return await _context.Categories.SingleOrDefaultAsync(m => m.Name == name);
+            var category = await _context.Categories.SingleOrDefaultAsync(m => m.Name == name);
+            return category;
         }
 
         public async Task<Image> CreateImageAsync(Image image)
@@ -45,7 +46,8 @@ namespace Autopart.Data.Repositories
 
         public async Task<Category> GetCategoryByIdAsync(int id)
         {
-            return await _context.Categories.FindAsync(id);
+            var category = await _context.Categories.FindAsync(id);
+            return category!;
         }
 
         public async Task<(IEnumerable<Category> Categories, int TotalCount)> GetAllCategoriesAsync(int pageNumber = 1, int pageSize = 10)
@@ -89,7 +91,8 @@ namespace Autopart.Data.Repositories
 
         public async Task<Image> GetImageByIdAsync(int id)
         {
-            return await _context.Images.FindAsync(id);
+            var image = await _context.Images.FindAsync(id);
+            return image!;
         }
 
         public async Task UpdateImageAsync(Image image)
@@ -97,7 +100,6 @@ namespace Autopart.Data.Repositories
             _context.Images.Update(image);
             await _context.SaveChangesAsync();
         }
-
 
         public async Task<IEnumerable<Product>> GetProductsByCategoryIdAsync(int categoryId)
         {
