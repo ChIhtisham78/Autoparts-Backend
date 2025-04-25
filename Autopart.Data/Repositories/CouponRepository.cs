@@ -34,11 +34,13 @@ namespace Autopart.Data.Repositories
 
         public async Task<Coupon> GetCouponByIdAsync(int id)
         {
-            return await _context.Coupons.FindAsync(id);
+            var coupon = await _context.Coupons.FindAsync(id);
+            return coupon ?? new Coupon();
         }
         public async Task<Coupon> GetCouponByCodeAsync(string code)
         {
-            return await _context.Coupons.FirstOrDefaultAsync(c => c.Code == code);
+            var coupon = await _context.Coupons.FirstOrDefaultAsync(x => x.Code == code);
+            return coupon ?? new Coupon();
         }
 
 
