@@ -2,6 +2,7 @@
 using Autopart.Application.Models;
 using Autopart.Application.Models.Products;
 using Autopart.Application.Options;
+using Autopart.Domain.CommonDTO;
 using Autopart.Domain.Exceptions;
 using Autopart.Domain.Interfaces;
 using Autopart.Domain.Models;
@@ -70,14 +71,11 @@ namespace Autopart.Application.Services
 				throw new Exception("An error occurred while the order.", ex);
 			}
 		}
-		public async Task<(List<OrdersDto> Orders, int TotalCount)> GetOrders(
-		int? customerId = null, int? orderNumber = null,
-		string? search = null, int pageNumber = 1, int pageSize = 10)
+		public async Task<(List<OrdersDto> Orders, int TotalCount)> GetOrders(GetAllOrdersDto ordersDto)
 		{
 			try
 			{
-				var (orders, totalCount) = await _ordersRepository.GetOrders(
-					customerId, orderNumber, null!, search!, pageNumber, pageSize);
+				var (orders, totalCount) = await _ordersRepository.GetOrders(ordersDto);
 
 				var uniqueOrders = orders.Select(x => new { x.orders, x.coupon, x.tax }).Distinct().ToList();
 				var orderIds = uniqueOrders.Select(c => c.orders.Id).ToArray();

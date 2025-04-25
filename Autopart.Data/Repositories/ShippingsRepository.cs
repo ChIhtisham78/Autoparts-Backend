@@ -17,9 +17,8 @@ namespace Autopart.Data.Repositories
 
 		public async Task<Svcrelation> GetSVCRelationByShopIdAndSizeAsync(int shopId, string size)
 		{
-			return await _context.Svcrelations
-				.Where(s => s.ShopId == shopId && s.Size == size)
-				.FirstOrDefaultAsync() ?? new Svcrelation();
+			var svcRelation = await _context.Svcrelations.Where(x => x.ShopId == shopId && x.Size == size).FirstOrDefaultAsync();
+			return svcRelation ?? new Svcrelation();
 		}
 
         public async Task<decimal> GetTaxRateForUserAddressAsync(ShippingAddress shippingAddress)

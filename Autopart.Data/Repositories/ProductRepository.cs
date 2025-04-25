@@ -408,13 +408,11 @@ namespace Autopart.Data.Repositories
         {
             if (manufacturerId == null)
             {
-                return null;
+                return null!;
             }
+            var manufacturer = await _context.Manufactures.FirstOrDefaultAsync(m => m.Id == manufacturerId.Value);
 
-            var manufacturer = await _context.Manufactures
-                .FirstOrDefaultAsync(m => m.Id == manufacturerId.Value);
-
-            return manufacturer?.Name;
+            return manufacturer!.Name;
         }
 
 
@@ -428,7 +426,7 @@ namespace Autopart.Data.Repositories
             var engine = await _context.Engines
                 .FirstOrDefaultAsync(m => m.Id == engineId.Value);
 
-            return engine?.Engine1;
+            return engine!.Engine1;
         }
         public async Task<string> GetModelNameById(int? modelId)
         {

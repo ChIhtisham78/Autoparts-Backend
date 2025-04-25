@@ -1,4 +1,5 @@
-﻿using Autopart.Domain.CommonModel;
+﻿using Autopart.Domain.CommonDTO;
+using Autopart.Domain.CommonModel;
 using Autopart.Domain.Models;
 using Autopart.Domain.SharedKernel;
 
@@ -6,7 +7,7 @@ namespace Autopart.Domain.Interfaces
 {
 	public interface IOrdersRepository : IRepository<Order>
 	{
-		Task<(IEnumerable<GetOrdersDTO> Orders, int TotalCount)> GetOrders(int? customerId = null, int? orderNumber = null, string trackingNumber = null, string search = null, int pageNumber = 1, int pageSize = 10);
+        Task<(IEnumerable<GetOrdersDTO> Orders, int TotalCount)> GetOrders(GetAllOrdersDto ordersDto);
 		Task<List<Category>> GetAllCategoriesAsync();
 		Task<Category> GetCategoryByIdAsync(int id);
 

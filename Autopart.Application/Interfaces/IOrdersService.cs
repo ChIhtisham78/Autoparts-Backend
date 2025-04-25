@@ -1,12 +1,14 @@
 ﻿using Autopart.Application.Models;
 using Autopart.Application.Options;
+using Autopart.Domain.CommonDTO;
+using Autopart.Domain.CommonModel;
 using Autopart.Domain.Models;
 
 namespace Autopart.Application.Interfaces
 {
 	public interface IOrdersService
 	{
-		Task<(List<OrdersDto> Orders, int TotalCount)> GetOrders(int? customerId = null, int? orderNumber = null, string search = null, int pageNumber = 1, int pageSize = 10);
+        Task<(List<OrdersDto> Orders, int TotalCount)> GetOrders(GetAllOrdersDto ordersDto);
 		Task<List<OrdersDto>> GetPendingOrders();
 		Task<VerifyOrderResponse> VerifyOrder(VerifyOrderDto verifyOrderDto);
 

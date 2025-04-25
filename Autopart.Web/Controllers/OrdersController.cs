@@ -1,5 +1,6 @@
 ﻿using Autopart.Application.Interfaces;
 using Autopart.Application.Models;
+using Autopart.Domain.CommonDTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -34,21 +35,21 @@ namespace Autopart.Api.Controllers
 		}
 
 		[HttpGet("orders")]
-		public async Task<ActionResult> GetOrders(int? customerId = null, int? orderNumber = null, string search = null, int page = 1, int limit = 10)
+		public async Task<ActionResult> GetOrders(GetAllOrdersDto ordersDto)
 		{
 
-			var (orders, totalCount) = await _ordersService.GetOrders(customerId, orderNumber, search, page, limit);
+			var (orders, totalCount) = await _ordersService.GetOrders(ordersDto);
 
 			var response = new
 			{
 				result = orders,
 				total = totalCount,
-				currentPage = page,
+				currentPage = ordersDto.pageNumber,
 				count = orders.Count(),
-				lastPage = (int)Math.Ceiling((double)totalCount / limit),
-				firstItem = (page - 1) * limit + 1,
-				lastItem = (page - 1) * limit + orders.Count(),
-				perPage = limit,
+				lastPage = (int)Math.Ceiling((double)totalCount / ordersDto.pageSize),
+				firstItem = (ordersDto.pageNumber - 1) * ordersDto.pageSize + 1,
+				lastItem = (ordersDto.pageNumber - 1) * ordersDto.pageSize + orders.Count(),
+				perPage = ordersDto.pageSize,
 			};
 
 			return new JsonResult(response)

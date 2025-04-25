@@ -1,4 +1,5 @@
-﻿using Autopart.Domain.CommonModel;
+﻿using Autopart.Domain.CommonDTO;
+using Autopart.Domain.CommonModel;
 using Autopart.Domain.Interfaces;
 using Autopart.Domain.Models;
 using Autopart.Domain.SharedKernel;
@@ -67,7 +68,7 @@ namespace Autopart.Data.Repositories
 
 
 
-		public async Task<(IEnumerable<GetOrdersDTO> Orders, int TotalCount)> GetOrders(int? customerId = null, int? orderNumber = null, string trackingNumber = null, string search = null, int pageNumber = 1, int pageSize = 10)
+		public async Task<(IEnumerable<GetOrdersDTO> Orders, int TotalCount)> GetOrders(GetAllOrdersDto ordersDto)
 		{
 			try
 			{
@@ -100,7 +101,6 @@ namespace Autopart.Data.Repositories
 								  from billing in billinggrouped.DefaultIfEmpty()
 								  join billingAddress in _context.BillingAddresses on order.Id equals billingAddress.OrderId into shippingaddressgrouped
 								  from billingAddress in shippingaddressgrouped.DefaultIfEmpty()
-
 								  select new GetOrdersDTO
 								  {
 									  orders = order,
@@ -117,21 +117,21 @@ namespace Autopart.Data.Repositories
 								  });
 
 
-				if (customerId.HasValue)
+				if (ordersDto.customerId.HasValue)
 				{
-					finalQuery = finalQuery.Where(o => o.orders.CustomerId == customerId);
+					finalQuery = finalQuery.Where(o => o.orders.CustomerId == ordersDto.customerId);
 				}
 
 				// Filter by OrderNumber if provided
-				if (orderNumber.HasValue)
+				if (ordersDto.orderNumber.HasValue)
 				{
-					finalQuery = finalQuery.Where(o => o.orders.Shippings.Any(s => s.TrackingNo.Contains(trackingNumber)));
+					finalQuery = finalQuery.Where(o => o.orders.Shippings.Any(s => s.TrackingNo.Contains(ordersDto.trackingNumber!)));
 				}
 
 				// Filter by search term if provided
-				if (!string.IsNullOrEmpty(search))
+				if (!string.IsNullOrEmpty(ordersDto.search))
 				{
-					finalQuery = finalQuery.Where(o => o.orders.OrderLines.Any(ol => ol.Product.Name.Contains(search) || ol.Product.Slug.Contains(search)));
+					finalQuery = finalQuery.Where(o => o.orders.OrderLines.Any(ol => ol.Product.Name.Contains(ordersDto.search) || ol.Product.Slug.Contains(ordersDto.search)));
 				}
 
 
@@ -139,8 +139,8 @@ namespace Autopart.Data.Repositories
 				//var totalCount = 0;
 
 				var orders = await finalQuery
-					.Skip((pageNumber - 1) * pageSize)
-					.Take(pageSize)
+					.Skip((ordersDto.pageNumber - 1) * ordersDto.pageSize)
+					.Take(ordersDto.pageSize)
 					.ToListAsync();
 
 				return (orders, totalCount);

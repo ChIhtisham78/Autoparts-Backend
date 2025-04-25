@@ -97,7 +97,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseCors("AllowSpecificOrigins");
 app.UseMiddleware<JwtBlacklistMiddleware>();
-//app.UseAuthentication();
+app.UseAuthentication();
 app.UseAuthorization();
 app.UseStaticFiles();
 app.MapControllers();
