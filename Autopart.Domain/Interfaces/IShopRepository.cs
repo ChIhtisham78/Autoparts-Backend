@@ -36,7 +36,7 @@ namespace Autopart.Domain.Interfaces
 		//Task<Shop> GetShopById(int id);
 		Task<Shop> UpdateShop(Shop shop);
 		Task<Address> UpdateAddress(int shopId, Address address);
-		Task<Balance> UpdateBalance(Balance balance);
+		Task<Balance> UpdateBalance(int id,Balance balance);
 		Task<Image> UpdateImage(Image image);
 		Task<Social> UpdateSocial(Social social);
 		Task<Setting> UpdateSetting(Setting setting);

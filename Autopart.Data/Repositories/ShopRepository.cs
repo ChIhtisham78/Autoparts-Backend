@@ -118,7 +118,7 @@ namespace Autopart.Data.Repositories
 		public async Task<string> GetOwnerName(int? ownerId)
 		{
 			var user = await _context.AspNetUsers.FirstOrDefaultAsync(x => x.Id == ownerId);
-			return user?.UserName;
+			return user?.UserName!;
 		}
 		public async Task<string> GetImageById(int? imageId)
 		{
@@ -138,11 +138,11 @@ namespace Autopart.Data.Repositories
 
 		public async Task<Shop> GetShopById(int id)
 		{
-			return await _context.Shops.Where(s => s.Id == id).FirstOrDefaultAsync();
+			return await _context.Shops.Where(s => s.Id == id).FirstOrDefaultAsync() ?? new Shop();
 		}
 		public async Task<Shop> GetShopBySlug(string slug)
 		{
-			return await _context.Shops.Where(s => s.Slug == slug).FirstOrDefaultAsync();
+			return await _context.Shops.Where(s => s.Slug == slug).FirstOrDefaultAsync() ?? new Shop();
 		}
 
 		//public async Task<IEnumerable<Shop>> GetShopBySlug(string slug)
@@ -152,11 +152,11 @@ namespace Autopart.Data.Repositories
 
 		public async Task<Address> GetShopAddressById(int shopId)
 		{
-			return await _context.Addresses.FirstOrDefaultAsync(a => a.ShopId == shopId);
+			return await _context.Addresses.FirstOrDefaultAsync(a => a.ShopId == shopId) ?? new Address();
 		}
 		public async Task<Setting> GetSettingByShopId(int shopId)
 		{
-			return await _context.Settings.Where(s => s.ShopId == shopId).FirstOrDefaultAsync();
+			return await _context.Settings.Where(s => s.ShopId == shopId).FirstOrDefaultAsync() ?? new Setting();
 		}
 
 		public async Task<AspNetUser?> GetShopByUserId(int ownerId)
@@ -172,12 +172,12 @@ namespace Autopart.Data.Repositories
 
 		public async Task<Social> GetSocialByShopId(int shopId)
 		{
-			return await _context.Socials.FirstOrDefaultAsync(s => s.ShopId == shopId);
+			return await _context.Socials.FirstOrDefaultAsync(s => s.ShopId == shopId) ?? new Social();
 		}
 
 		public async Task<Balance> GetBalanceByShopId(int shopId)
 		{
-			return await _context.Balances.FirstOrDefaultAsync(b => b.ShopId == shopId);
+			return await _context.Balances.FirstOrDefaultAsync(b => b.ShopId == shopId) ?? new Balance();
 		}
 
 
@@ -260,9 +260,9 @@ namespace Autopart.Data.Repositories
 		}
 
 
-		public async Task<Balance> UpdateBalance(Balance balance)
+		public async Task<Balance> UpdateBalance(int id,Balance balance)
 		{
-			var existingBalance = await _context.Balances.FirstOrDefaultAsync(b => b.ShopId == balance.ShopId);
+			var existingBalance = await _context.Balances.FindAsync(id);
 			if (existingBalance == null)
 			{
 				return null;
