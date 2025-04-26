@@ -30,7 +30,7 @@ namespace Autopart.Data.Repositories
 
 		public async Task<Rating> GetByIdAsync(int id)
 		{
-			return await _context.Ratings.FindAsync(id);
+			return await _context.Ratings.FindAsync(id) ?? new Rating();
 		}
 
 		public void Delete(Rating review)

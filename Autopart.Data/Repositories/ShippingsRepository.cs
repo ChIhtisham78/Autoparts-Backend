@@ -58,17 +58,17 @@ namespace Autopart.Data.Repositories
 		{
 			return await _context.Shippings
 				.Include(s => s.ShippingAddresses)
-				.FirstOrDefaultAsync(s => s.Id == id);
+				.FirstOrDefaultAsync(s => s.Id == id) ?? new Shipping();
 		}
 
 		public async Task<Shipping> GetByIdAsync(int id)
 		{
-			return await _context.Shippings.FirstOrDefaultAsync(s => s.Id == id);
+			return await _context.Shippings.FirstOrDefaultAsync(s => s.Id == id) ?? new Shipping();
 		}
 
 		public async Task<ShippingAddress> GetByShippingIdAsync(int id)
 		{
-			return await _context.ShippingAddresses.FirstOrDefaultAsync(s => s.ShippingId == id);
+			return await _context.ShippingAddresses.FirstOrDefaultAsync(s => s.ShippingId == id) ?? new ShippingAddress();
 		}
 
 		public void UpdateShippings(Shipping shipping)
