@@ -30,9 +30,8 @@ namespace Autopart.Data.Repositories
 
         public async Task<Domain.Models.Attribute> GetAttributeByIdAsync(int id)
         {
-            return await _context.Attributes
-                                 .Include(a => a.Values)
-                                 .FirstOrDefaultAsync(a => a.Id == id);
+           var attribute = await _context.Attributes.Include(x=>x.Values).FirstOrDefaultAsync(x=> x.Id == id);
+            return attribute ?? new Domain.Models.Attribute();
         }
 
         public async Task<IEnumerable<Domain.Models.Attribute>> GetAttributesAsync(int? shopId)
