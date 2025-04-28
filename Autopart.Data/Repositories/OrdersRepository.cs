@@ -233,7 +233,7 @@ namespace Autopart.Data.Repositories
         }
 
 
-        public async Task<Shop> GetShopById(int Id)
+        public async Task<Shop?> GetShopById(int Id)
         {
             return await _context.Shops.FirstOrDefaultAsync(s => s.Id == Id) ?? new Shop();
         }
@@ -476,7 +476,7 @@ namespace Autopart.Data.Repositories
 
         public async Task UpdateOrder(Order order)
         {
-            _context.Orders.Update(order);
+           _context.Orders.Update(order);
 
         }
 

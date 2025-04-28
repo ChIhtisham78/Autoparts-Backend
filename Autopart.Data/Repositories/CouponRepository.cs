@@ -24,7 +24,7 @@ namespace Autopart.Data.Repositories
                 await _context.SaveChangesAsync();
                 return coupon;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 throw;

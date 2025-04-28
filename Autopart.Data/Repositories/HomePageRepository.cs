@@ -23,7 +23,7 @@ namespace Autopart.Data.Repositories
             return getAllPages ?? new List<HomePage>();
         }
 
-        public async Task<HomePage?> GetByIdAsync(int id)
+        public async Task<HomePage> GetByIdAsync(int id)
         {
             var getHomePage = await _context.HomePages.FindAsync(id);
             return getHomePage ?? new HomePage();

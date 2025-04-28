@@ -18,7 +18,7 @@ namespace Autopart.Data.Repositories
 
 		public async Task<Manufacture> GetBySlugAsync(string slug)
 		{
-			return await _context.Manufactures.FirstOrDefaultAsync(m => m.Slug == slug);
+			return await _context.Manufactures.FirstOrDefaultAsync(m => m.Slug == slug) ?? new Manufacture();
 		}
 
 		public async Task<(List<Manufacture> Manufacturers, int TotalCount)> GetManufacturers(int pageNumber = 1, int pageSize = 10)

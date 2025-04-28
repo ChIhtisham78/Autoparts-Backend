@@ -34,7 +34,7 @@ namespace Autopart.Data.Repositories
         public async Task<string> GetImageById(int? imageId)
         {
             var image = await _context.Images.FirstOrDefaultAsync(x => x.Id == imageId);
-            return image.OriginalUrl;
+            return image!.OriginalUrl;
         }
 
         public async Task<IEnumerable<Author>> GetAuthorBySlugAsync(string slug)
@@ -71,7 +71,7 @@ namespace Autopart.Data.Repositories
 
         public async Task<Author> GetAuthorByIdAsync(int id)
         {
-            return await _context.Authors.FindAsync(id);
+            return await _context.Authors.FindAsync(id) ?? new Author();
         }
 
         public async Task AddImage(Image image)
@@ -83,7 +83,7 @@ namespace Autopart.Data.Repositories
         {
             var author = await _context.Authors.Where(i => i.Id == authorId).FirstOrDefaultAsync();
             var imagesToDelete = new List<Image>();
-            var coverImage = await _context.Images.Where(x => x.Id == author.CoverImageId).FirstOrDefaultAsync();
+            var coverImage = await _context.Images.Where(x => x.Id == author!.CoverImageId).FirstOrDefaultAsync();
             if (coverImage != null)
             {
                 imagesToDelete.Add(coverImage);
