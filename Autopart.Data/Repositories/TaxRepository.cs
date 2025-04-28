@@ -29,14 +29,11 @@ namespace Autopart.Data.Repositories
         }
 
 
-
         public async Task<Tax> GetTaxById(int id)
         {
             var tax = await _context.Taxes.FindAsync(id);
             return tax ?? new Tax();
         }
-
-
 
         public async Task<Tax> GetByIdAsync(int id)
         {

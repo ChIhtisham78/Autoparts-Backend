@@ -129,7 +129,7 @@ namespace Autopart.Data.Repositories
                 }
 
                 // Filter by search term if provided
-                if (!string.IsNullOrEmpty(ordersDto.search))
+                if (!string.i(ordersDto.search))
                 {
                     query = query.Where(o => o.orders.OrderLines.Any(ol => ol.Product.Name.Contains(ordersDto.search) || ol.Product.Slug.Contains(ordersDto.search)));
                 }
@@ -484,7 +484,6 @@ namespace Autopart.Data.Repositories
         {
             return await _context.Orders.FindAsync(id) ?? new Order();
         }
-
 
         public async Task<AspNetUser?> GetOrderByCustomerId(int customerId)
         {
