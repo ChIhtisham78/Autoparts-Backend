@@ -33,12 +33,14 @@ namespace Autopart.Data.Repositories
 
 		public async Task<List<Address>> GetAddresses()
 		{
-			return await _context.Addresses.ToListAsync();
+			var address = await _context.Addresses.ToListAsync();
+			return address;
 		}
 
 		public async Task<Address?> GetAddressById(int id)
 		{
-			return await _context.Addresses.FirstOrDefaultAsync(x => x.Id == id);
+			var address = await _context.Addresses.FirstOrDefaultAsync(x => x.Id == id);
+			return address;
 		}
 	}
 }
