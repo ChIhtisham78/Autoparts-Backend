@@ -13,7 +13,7 @@ namespace Autopart.Application.Interfaces
 		Task<string> UploadImage(IFormFile image);
 		Task<ShopDto> GetShop(int Id);
 		Task<ShopDto> GetShopBySlug(string slug);
-		Task<ShopDto> UpdateShop(ShopDto shopDto);
+		Task<ShopDto> UpdateShop(int id,ShopDto shopDto);
 		Task<bool> DeleteShop(int id);
 		Task<ShopDto> ApproveShop(int id);
 		Task<ShopDto> DisapproveShop(int id);

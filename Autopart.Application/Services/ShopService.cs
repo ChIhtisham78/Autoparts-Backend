@@ -37,7 +37,7 @@ namespace Autopart.Application.Services
 
                 int coverImageId = 0;
                 int logoImageId = 0;
-                string certificateUrl = null;
+                string certificateUrl = null!;
 
                 if (shopDtoRequest.imageDto?.CoverImage != null || shopDtoRequest.imageDto?.Logo != null)
                 {
@@ -70,7 +70,7 @@ namespace Autopart.Application.Services
                     LogoImageId = logoImageId,
                     Slug = slug,
                     OwnerId = userId,
-                    IsActive = user.IsActive,
+                    IsActive = user!.IsActive,
                     CertificateUrl = certificateUrl
                 };
 
@@ -80,7 +80,7 @@ namespace Autopart.Application.Services
                 var address = new Address
                 {
                     ShopId = createdShop.Id,
-                    Zip = shopDtoRequest.shopAddressDto.Zip,
+                    Zip = shopDtoRequest.shopAddressDto!.Zip,
                     City = shopDtoRequest.shopAddressDto.City,
                     State = shopDtoRequest.shopAddressDto.State,
                     Country = shopDtoRequest.shopAddressDto.Country,
@@ -93,7 +93,7 @@ namespace Autopart.Application.Services
                 var balance = new Balance
                 {
                     ShopId = createdShop.Id,
-                    AdminCommissionRate = shopDtoRequest.balanceDto.AdminCommissionRate,
+                    AdminCommissionRate = shopDtoRequest.balanceDto!.AdminCommissionRate,
                     Shop = createdShop.Name,
                     TotalEarnings = shopDtoRequest.balanceDto.TotalEarnings,
                     WithDrawnAmount = shopDtoRequest.balanceDto.WithDrawnAmount,
@@ -122,7 +122,7 @@ namespace Autopart.Application.Services
                 var setting = new Setting
                 {
                     ShopId = createdShop.Id,
-                    Contact = shopDtoRequest.settingDto.Contact,
+                    Contact = shopDtoRequest.settingDto!.Contact,
                     Website = shopDtoRequest.settingDto.Website,
                     LocationLat = shopDtoRequest.settingDto.LocationLat,
                     LocationLng = shopDtoRequest.settingDto.LocationLng,
@@ -138,7 +138,7 @@ namespace Autopart.Application.Services
 
                 return _typeAdapter.Adapt<ShopDto>(createdShop);
             }
-            catch (Exception exp)
+            catch (Exception)
             {
                 // Handle exceptions
                 throw;
@@ -242,7 +242,7 @@ namespace Autopart.Application.Services
                         IsActive = detail.Owner.IsActive,
                         ShopId = detail.Shop.Id,
                         CreatedAt = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified),
-                        Roles = detail.Roles != null ? string.Join(",", detail.Roles) : null
+                        Roles = detail.Roles != null ? string.Join(",", detail.Roles) : null!
                     } : null
                 };
 
@@ -258,7 +258,7 @@ namespace Autopart.Application.Services
             var shop = await _shopRepository.GetShopById(Id);
             if (shop == null)
             {
-                return null;
+                return null!;
             }
             //if (Filter != null)
             //{
@@ -375,7 +375,7 @@ namespace Autopart.Application.Services
                     IsActive = user.IsActive,
                     ShopId = user.Id,
                     CreatedAt = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified),
-                    Roles = ownerRoles != null ? string.Join(",", ownerRoles) : null
+                    Roles = ownerRoles != null ? string.Join(",", ownerRoles) : null!
 
                 } : null ?? new OrderUserDto(),
             };
@@ -390,7 +390,7 @@ namespace Autopart.Application.Services
             var shop = await _shopRepository.GetShopBySlug(slug);
             if (shop == null)
             {
-                return null; // Or throw an exception if shop not found
+                return null!; // Or throw an exception if shop not found
             }
             string logoUrl = string.Empty;
             string coverUrl = string.Empty;
@@ -501,7 +501,7 @@ namespace Autopart.Application.Services
                     IsActive = user.IsActive,
                     ShopId = user.Id,
                     CreatedAt = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified),
-                    Roles = ownerRoles != null ? string.Join(",", ownerRoles) : null
+                    Roles = ownerRoles != null ? string.Join(",", ownerRoles) : null!
 
                 } : null ?? new OrderUserDto(),
             };
@@ -514,14 +514,14 @@ namespace Autopart.Application.Services
 
 
 
-        public async Task<ShopDto> UpdateShop(ShopDto shopDto)
+        public async Task<ShopDto> UpdateShop(int id,ShopDto shopDto)
         {
             try
             {
                 var shop = await _shopRepository.GetShopById(shopDto.Id);
                 if (shop == null)
                 {
-                    return null;
+                    return null!;
                 }
 
                 // Handle Cover Image Update
@@ -595,7 +595,7 @@ namespace Autopart.Application.Services
                     AccountHolderName = shopDto.balanceDto.AccountHolderName,
                     BankName = shopDto.balanceDto.BankName,
                 };
-                await _shopRepository.UpdateBalance(balance);
+                await _shopRepository.UpdateBalance(id,balance);
                 await _shopRepository.UnitOfWork.SaveChangesAsync();
                 //var image = new Image
                 //{
@@ -612,14 +612,14 @@ namespace Autopart.Application.Services
                     social = new Social
                     {
                         ShopId = updatedShop.Id,
-                        Url = shopDto.socialDto.Url,
+                        Url = shopDto.socialDto!.Url,
                         Icon = shopDto.socialDto.Icon,
                     };
                     await _shopRepository.AddSocial(social);
                 }
                 else
                 {
-                    social.Url = shopDto.socialDto.Url;
+                    social.Url = shopDto.socialDto!.Url;
                     social.Icon = shopDto.socialDto.Icon;
                     await _shopRepository.UpdateSocial(social);
                 }
@@ -632,7 +632,7 @@ namespace Autopart.Application.Services
                     setting = new Setting
                     {
                         ShopId = updatedShop.Id,
-                        Contact = shopDto.settingDto.Contact,
+                        Contact = shopDto.settingDto!.Contact,
                         Website = shopDto.settingDto.Website,
                         LocationLat = shopDto.settingDto.LocationLat,
                         LocationLng = shopDto.settingDto.LocationLng,
@@ -646,7 +646,7 @@ namespace Autopart.Application.Services
                 }
                 else
                 {
-                    setting.Contact = shopDto.settingDto.Contact;
+                    setting.Contact = shopDto.settingDto!.Contact;
                     setting.Website = shopDto.settingDto.Website;
                     setting.LocationLat = shopDto.settingDto.LocationLat;
                     setting.LocationLng = shopDto.settingDto.LocationLng;
@@ -661,9 +661,9 @@ namespace Autopart.Application.Services
 
                 return _typeAdapter.Adapt<ShopDto>(updatedShop);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
         public async Task<List<string>> GetRolesByUserId(int userId)
@@ -703,7 +703,7 @@ namespace Autopart.Application.Services
                 await _shopRepository.UnitOfWork.SaveChangesAsync();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -806,7 +806,7 @@ namespace Autopart.Application.Services
                             IsActive = detail.Owner.IsActive,
                             ShopId = detail.Shop.Id,
                             CreatedAt = DateTime.SpecifyKind(DateTime.UtcNow, DateTimeKind.Unspecified),
-                            Roles = detail.Roles != null ? string.Join(",", detail.Roles) : null
+                            Roles = detail.Roles != null ? string.Join(",", detail.Roles) : null!
                         } : null
                     }).ToList();
 
