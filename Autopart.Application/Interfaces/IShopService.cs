@@ -6,10 +6,7 @@ namespace Autopart.Application.Interfaces
 	public interface IShopService
 	{
 		Task<ShopDto> AddShop(ShopDtoRequest shopDtoRequest, int userId);
-
-
 		Task<List<ShopDto>> GetShops();
-
 		Task<string> UploadImage(IFormFile image);
 		Task<ShopDto> GetShop(int Id);
 		Task<ShopDto> GetShopBySlug(string slug);

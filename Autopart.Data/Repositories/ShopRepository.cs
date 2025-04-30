@@ -70,7 +70,7 @@ namespace Autopart.Data.Repositories
 			var shopIds = shopsWithDetails.Select(s => s.Shop.Id).ToList();
 
 			var productCounts = await _context.Products
-											  .Where(p => shopIds.Contains((int)p.ShopId))
+											  .Where(p => shopIds.Contains((int)p.ShopId!))
 											  .GroupBy(p => p.ShopId)
 											  .Select(g => new { ShopId = g.Key, ProductCount = g.Count() })
 											  .ToListAsync();
@@ -78,19 +78,28 @@ namespace Autopart.Data.Repositories
 			var orderCounts = await _context.Orders
 											.Join(_context.OrderLines, o => o.Id, ol => ol.OrderId, (o, ol) => new { o, ol })
 											.Join(_context.Products, oo => oo.ol.ProductId, p => p.Id, (oo, p) => new { oo.o, p.ShopId })
-											.Where(op => shopIds.Contains((int)op.ShopId))
+											.Where(op => shopIds.Contains((int)op.ShopId!))
 											.GroupBy(op => op.ShopId)
 											.Select(g => new { ShopId = g.Key, OrdersCount = g.Count() })
 											.ToListAsync();
-			// Fetch roles separately
-			var userRoles = await _context.AspNetUserRoles
-										  .Join(_context.AspNetRoles, ur => ur.RoleId, r => r.Id, (ur, r) => new { ur.UserId, RoleName = r.Name })
-										  .Where(ur => shopIds.Contains((int)ur.UserId))
-										  .GroupBy(ur => ur.UserId)
-										  .Select(g => new { UserId = g.Key, Roles = g.Select(ur => ur.RoleName).ToList() })
-										  .ToListAsync();
+            // Fetch roles separately
 
-			foreach (var shopDetail in shopsWithDetails)
+
+
+            var userRoles = await (from ur in _context.AspNetUserRoles
+                                   join r in _context.AspNetRoles on ur.RoleId equals r.Id
+                                   where shopIds.Contains((int)ur.UserId!)
+                                   group new { ur, r } by ur.UserId into g
+                                   select new
+                                   {
+                                       UserId = g.Key,
+                                       Roles = g.Select(x => x.r.Name).ToList()
+                                   }).ToListAsync();
+
+
+
+
+            foreach (var shopDetail in shopsWithDetails)
 			{
 				shopDetail.OrdersCount = orderCounts.FirstOrDefault(o => o.ShopId == shopDetail.Shop.Id)?.OrdersCount ?? 0;
 				shopDetail.ProductCount = productCounts.FirstOrDefault(p => p.ShopId == shopDetail.Shop.Id)?.ProductCount ?? 0;
