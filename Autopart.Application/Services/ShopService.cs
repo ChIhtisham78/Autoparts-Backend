@@ -689,7 +689,7 @@ namespace Autopart.Application.Services
                 var result = await _shopRepository.DeleteShop(id);
                 if (!result)
                 {
-                    return false;
+                    return false;                   
                 }
                 await _shopRepository.DeleteAddresses(id);
                 await _shopRepository.DeleteBalances(id);
