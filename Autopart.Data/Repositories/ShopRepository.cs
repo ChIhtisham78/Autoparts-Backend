@@ -75,18 +75,17 @@ namespace Autopart.Data.Repositories
                                               .Select(g => new { ShopId = g.Key, ProductCount = g.Count() })
                                               .ToListAsync();
 
-            var orderCounts = await
-                (from o in _context.Orders
-                 join ol in _context.OrderLines on o.Id equals ol.OrderId
-                 join p in _context.Products on ol.ProductId equals p.Id
-                 where shopIds.Contains((int)p.ShopId!)
-                 group o by p.ShopId into g
-                 select new
-                 {
-                     ShopId = g.Key,
-                     OrdersCount = g.Count()
-                 })
-                .ToListAsync();
+            var orderCounts = await (from o in _context.Orders
+                                     join ol in _context.OrderLines on o.Id equals ol.OrderId
+                                     join p in _context.Products on ol.ProductId equals p.Id
+                                     where shopIds.Contains((int)p.ShopId!)
+                                     group o by p.ShopId into g
+                                     select new
+                                     {
+                                         ShopId = g.Key,
+                                         OrdersCount = g.Count()
+                                     })
+                                    .ToListAsync();
 
             var userRoles = await (from ur in _context.AspNetUserRoles
                                    join r in _context.AspNetRoles on ur.RoleId equals r.Id
@@ -222,18 +221,18 @@ namespace Autopart.Data.Repositories
             var result = shops.GroupBy(s => s.Shop.Id).Select(g => new Shop
             {
                 Id = g.Key,
-                Name = g.First().Shop.Name,
-                OwnerId = g.First().Shop.OwnerId,
-                Slug = g.First().Shop.Slug,
-                IsActive = g.First().Shop.IsActive,
-                Description = g.First().Shop.Description,
-                CreatedAt = g.First().Shop.CreatedAt,
-                LogoImage = g.First().LogoImage,
-                CoverImage = g.First().CoverImage,
+                Name = g.FirstOrDefault()!.Shop.Name,
+                OwnerId = g.FirstOrDefault()!.Shop.OwnerId,
+                Slug = g.FirstOrDefault()!.Shop.Slug,
+                IsActive = g.FirstOrDefault()!.Shop.IsActive,
+                Description = g.FirstOrDefault()!.Shop.Description,
+                CreatedAt = g.FirstOrDefault()!.Shop.CreatedAt,
+                LogoImage = g.FirstOrDefault()!.LogoImage,
+                CoverImage = g.FirstOrDefault()!.CoverImage,
                 Addresses = g.Select(a => a.Address).Where(a => a != null).ToList(),
-                Setting = g.First().Setting,
+                Setting = g.FirstOrDefault()!.Setting,
                 Socials = g.Select(s => s.Social).Where(s => s != null).ToList(),
-                Balance = g.First().Balance
+                Balance = g.FirstOrDefault()!.Balance
             }).ToList();
 
             return result;
