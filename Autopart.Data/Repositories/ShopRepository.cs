@@ -244,7 +244,7 @@ namespace Autopart.Data.Repositories
             var existingShop = await _context.Shops.Include(s => s.CoverImage).FirstOrDefaultAsync(s => s.Id == shop.Id);
             if (existingShop == null)
             {
-                return null;
+                return null!;
             }
             existingShop.Name = shop.Name;
             existingShop.Description = shop.Description;
@@ -258,7 +258,7 @@ namespace Autopart.Data.Repositories
             var existingAddress = await _context.Addresses.FirstOrDefaultAsync(a => a.ShopId == shopId);
             if (existingAddress == null)
             {
-                return null;
+                return null!;
             }
             existingAddress.Zip = address.Zip;
             existingAddress.City = address.City;
@@ -275,7 +275,7 @@ namespace Autopart.Data.Repositories
             var existingBalance = await _context.Balances.FindAsync(id);
             if (existingBalance == null)
             {
-                return null;
+                return null!;
             }
             existingBalance.AdminCommissionRate = balance.AdminCommissionRate;
             existingBalance.Shop = balance.Shop;
@@ -295,6 +295,7 @@ namespace Autopart.Data.Repositories
 
         public async Task<Image> UpdateImage(Image image)
         {
+
             _context.Images.Update(image);
             return image;
         }
@@ -342,7 +343,7 @@ namespace Autopart.Data.Repositories
             var shop = await _context.Shops.FindAsync(id);
             if (shop == null)
             {
-                return null;
+                return null!;
             }
             shop.IsActive = false;
             _context.Shops.Update(shop);

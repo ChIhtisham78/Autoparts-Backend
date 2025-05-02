@@ -3,6 +3,9 @@ using Autopart.Domain.Interfaces;
 using Autopart.Domain.Models;
 using Autopart.Domain.SharedKernel;
 using DocumentFormat.OpenXml.Spreadsheet;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using static Autopart.Domain.Enum.EnumAndConsonent;
 
@@ -51,7 +54,7 @@ namespace Autopart.Data.Repositories
 
         public async Task<Engine> GetEngineByIdAsync(int id)
         {
-            return await _context.Engines.FindAsync(id);
+            return await _context.Engines.FindAsync(id) ?? new Engine();
         }
 
 
@@ -88,6 +91,7 @@ namespace Autopart.Data.Repositories
         }
 
 
+        
 
         public async Task<bool> DeleteWishlistProductsByProductIdAsync(int productId)
         {

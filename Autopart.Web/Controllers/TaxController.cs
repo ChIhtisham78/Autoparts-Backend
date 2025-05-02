@@ -1,6 +1,7 @@
 ﻿using Autopart.Application.Interfaces;
 using Autopart.Application.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Autopart.Api.Controllers
@@ -47,7 +48,24 @@ namespace Autopart.Api.Controllers
 			
 		}
 
-		[Authorize]
+        public async Task<IActionResult> UploadFile(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return NotFound();
+
+			var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+			Directory.CreateDirectory(uploadsFolder);
+
+            var fileName = Path.GetFileName(file.FileName);
+            var filePath = Path.Combine(uploadsFolder, fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+				await file.CopyToAsync(stream);
+            return Ok(new { filePath });
+
+        }
+
+        [Authorize]
 		[HttpPut("tax/{id}")]
 		public async Task<ActionResult> PutTax(int id, [FromBody] TaxDto taxDto)
 		{
