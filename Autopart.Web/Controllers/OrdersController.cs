@@ -23,16 +23,13 @@ namespace Autopart.Api.Controllers
 		[HttpPost("order/verify")]
 		public async Task<IActionResult> VerifyOrder([FromBody] VerifyOrderDto verifyOrderDto)
 		{
-			try
-			{
-				var response = await _ordersService.VerifyOrder(verifyOrderDto);
-				return Ok(response);
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(new { message = ex.Message });
-			}
-		}
+			var verifyOrder = await _ordersService.VerifyOrder(verifyOrderDto);
+
+			if (verifyOrder == null)
+				return NotFound();
+
+            return Ok(verifyOrder);
+        }
 
 		[HttpGet("orders")]
 		public async Task<ActionResult> GetOrders(GetAllOrdersDto ordersDto)

@@ -38,15 +38,10 @@ namespace Autopart.Api.Controllers
         [HttpPut("UpdatePages/{id}")]
         public async Task<IActionResult> UpdateHomePage(int id, [FromBody] HomePageDto homePageDto)
         {
-            try
-            {
-                var updatedHomePage = await _homePageService.UpdateHomePageAsync(id, homePageDto);
-                return Ok(updatedHomePage);
-            }
-            catch (DomainException ex)
-            {
-                return NotFound(ex.Message);
-            }
+
+           var updatedHomePage = await _homePageService.UpdateHomePageAsync(id, homePageDto);
+           return Ok(updatedHomePage);
+            
         }
 
         [HttpDelete("DeletePages/{id}")]
