@@ -49,13 +49,10 @@ namespace Autopart.Api.Controllers
 			return Ok(tag);
 		}
 
-
-
-
 		[HttpGet("tags")]
 		public async Task<ActionResult<IEnumerable<TagDto>>> GetAllTags(string? name, int page = 1, int limit = 10)
 		{
-			var (tags, totalCount) = await _tagService.GetTagsAsync(name, page, limit);
+			var (tags, totalCount) = await _tagService.GetTagsAsync(name!, page, limit);
 
 			if (tags == null || !tags.Any())
 			{
@@ -81,10 +78,6 @@ namespace Autopart.Api.Controllers
 		}
 
 
-
-
-
-
 		[HttpGet("tags/{param}")]
 		public async Task<ActionResult<IEnumerable<TagDto>>> GetTagsByParam(string param, string language)
 		{
@@ -92,17 +85,12 @@ namespace Autopart.Api.Controllers
 			return Ok(tags);
 		}
 
-
-
-
 		[HttpGet("tagbyname/{param}")]
 		public async Task<ActionResult<IEnumerable<TagDto>>> GetTagsByName(string param)
 		{
 			var tags = await _tagService.GetTagsByName(param);
 			return Ok(tags);
 		}
-
-
 
 		[Authorize]
 		[HttpPut("tag/{id}")]
