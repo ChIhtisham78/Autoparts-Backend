@@ -82,16 +82,19 @@ namespace Autopart.Data.Repositories
 
         public async Task<IEnumerable<Product>> GetWishlistProductsByProductIdAsync(int productId)
         {
-                return await _context.UserWishlists
+
+            var result = await _context.UserWishlists
                 .Where(uw => uw.ProductId == productId)
                     .Include(uw => uw.Product)
                 .ThenInclude(p => p.Image)
                 .Select(uw => uw.Product)
                 .ToListAsync();
+
+            return result;
         }
 
 
-        
+
 
         public async Task<bool> DeleteWishlistProductsByProductIdAsync(int productId)
         {
