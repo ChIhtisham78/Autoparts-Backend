@@ -182,12 +182,14 @@ namespace Autopart.Data.Repositories
 
         public async Task<Social> GetSocialByShopId(int shopId)
         {
-            return await _context.Socials.FirstOrDefaultAsync(s => s.ShopId == shopId) ?? new Social();
+            var result = await _context.Socials.FirstOrDefaultAsync(s => s.ShopId == shopId) ?? new Social();
+            return result;
         }
 
         public async Task<Balance> GetBalanceByShopId(int shopId)
         {
-            return await _context.Balances.FirstOrDefaultAsync(b => b.ShopId == shopId) ?? new Balance();
+            var result = await _context.Balances.FirstOrDefaultAsync(b => b.ShopId == shopId) ?? new Balance();
+            return result;
         }
 
 
