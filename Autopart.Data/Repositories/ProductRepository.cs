@@ -376,7 +376,8 @@ namespace Autopart.Data.Repositories
 
         public async Task<Gallery> GetGalleryByProductId(int productId)
         {
-            return await _context.Galleries.FirstOrDefaultAsync(c => c.Id == productId) ?? new Gallery();
+            var result = await _context.Galleries.FirstOrDefaultAsync(c => c.Id == productId) ?? new Gallery();
+            return result;
         }
 
 
