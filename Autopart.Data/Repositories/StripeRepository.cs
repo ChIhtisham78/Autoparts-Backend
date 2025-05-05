@@ -31,7 +31,8 @@ namespace Autopart.Data.Repositories
         }
         public async Task<List<PaymentHistory>> GetPaymentHistoryByUserIdAsync(int userId)
         {
-            return await _context.PaymentHistories.Where(ph => ph.UserId == userId).ToListAsync();
+            var paymentHistory = await _context.PaymentHistories.Where(ph => ph.UserId == userId).ToListAsync();
+            return paymentHistory;
         } 
         public async Task<List<PaymentHistory>> GetPaymentHistoryByVendorIdAsync(string vendorId)
         {
