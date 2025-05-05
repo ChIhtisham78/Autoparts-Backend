@@ -49,9 +49,11 @@ namespace Autopart.Data.Repositories
 
 		public async Task<List<Shipping>> GetShippings()
 		{
-			return await _context.Shippings
-				.Include(s => s.ShippingAddresses)
-				.ToListAsync();
+			var shipping = await _context.Shippings
+                .Include(s => s.ShippingAddresses)
+                .ToListAsync();
+
+			return shipping;
 		}
 
 		public async Task<Shipping> GetShippingsById(int id)
