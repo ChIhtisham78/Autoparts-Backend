@@ -21,7 +21,12 @@ namespace Autopart.Data.Repositories
 
 		public async Task<List<Question>> GetQuestions()
 		{
-			return await _context.Questions.Include(r => r.Product).Include(r => r.User).ToListAsync();
+			var question = await _context.Questions
+                .Include(r => r.Product)
+                .Include(r => r.User)
+                .ToListAsync();
+
+            return question;
 		}
 
 		public async Task<(IEnumerable<Question> Questions, int TotalCount)> GetQuestions(int page = 1, int limit = 10, int? userId = null, int? productId = null)
