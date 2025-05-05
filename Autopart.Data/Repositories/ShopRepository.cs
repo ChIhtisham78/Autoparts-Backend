@@ -333,7 +333,7 @@ namespace Autopart.Data.Repositories
             var shop = await _context.Shops.FindAsync(id);
             if (shop == null)
             {
-                return null;
+                return null!;
             }
             shop.IsActive = true;
             _context.Shops.Update(shop);
@@ -475,14 +475,11 @@ namespace Autopart.Data.Repositories
         public async Task<int> GetShopsCount(int? vendorId = null)
         {
             if (vendorId.HasValue)
-            {
-                return await _context.Shops.CountAsync(shop => shop.OwnerId == vendorId.Value);
-            }
+               return await _context.Shops.CountAsync(shop => shop.OwnerId == vendorId.Value);
+            
             else
-            {
-                return await _context.Shops.CountAsync();
-            }
-            //return await _context.Shops.CountAsync();
+             return await _context.Shops.CountAsync();
+            
         }
 
     }
