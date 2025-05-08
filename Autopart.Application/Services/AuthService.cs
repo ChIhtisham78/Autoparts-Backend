@@ -19,24 +19,18 @@ namespace Autopart.Application.Services
         private readonly AuthenticationOptions _authenticationOptions;
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHelper _passwordHelper;
-        private readonly IPasswordHelper _passwordHelperRepo;
         private readonly SendGridSetting _sendGridSetting;
         private readonly IDistributedCache _cache;
-        private readonly ITypeAdapter _typeAdapter;
 
         public AuthService(IOptions<AuthenticationOptions> authenticationOptions,
             IUserRepository userRepository,
             IPasswordHelper passwordHelper,
-            IDistributedCache cache,
-            ITypeAdapter typeAdapter,
-            IPasswordHelper passwordHelperRepo,SendGridSetting sendGridSetting)
+            IDistributedCache cache, SendGridSetting sendGridSetting)
         {
             _authenticationOptions = authenticationOptions.Value;
             _userRepository = userRepository;
             _passwordHelper = passwordHelper;
             _cache = cache;
-            _typeAdapter = typeAdapter;
-            _passwordHelperRepo = passwordHelperRepo;
             _sendGridSetting = sendGridSetting;
         }
 
@@ -58,7 +52,7 @@ namespace Autopart.Application.Services
             }
             var passwordHash = _passwordHelper.CreatePasswordHash(user.SecurityStamp, request.Password);
             user.PasswordHash = passwordHash;
-             _userRepository.UpdateUser(user);
+            _userRepository.UpdateUser(user);
             await _userRepository.UnitOfWork.SaveChangesAsync();
 
             return true;
@@ -84,8 +78,8 @@ namespace Autopart.Application.Services
 
             var authenticatedUser = new AuthenticatedUser()
             {
-                Email = user.Email,
                 Id = user.Id,
+                Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 Role = user.AspNetUserRoles.FirstOrDefault()?.Role.Name,
                 UserName = user.UserName,
@@ -127,7 +121,7 @@ namespace Autopart.Application.Services
                 userName: user.UserName,
                 message1: string.Empty,
                 body: emailBody,
-                attachments: null 
+                attachments: null
             );
 
             return emailResult;
@@ -162,7 +156,12 @@ namespace Autopart.Application.Services
                     throw new Exception("Role not found");
                 }
 
-                var userRole = new AspNetUserRole { RoleId = roleInDb.Id, UserId = user.Id };
+                var userRole = new AspNetUserRole
+                {
+                    RoleId = roleInDb.Id,
+                    UserId = user.Id
+
+                };
                 user.AspNetUserRoles.Add(userRole);
 
                 user.IsActive = roleInDb.Name == Roles.store_owner ? false : true;

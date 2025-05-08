@@ -53,8 +53,15 @@ namespace Autopart.Api.Extensions
 				string userUserName = "user@autopart.com";
 				dataSeeder.AddUser(userEmail, userUserName, userPassword, userPasswordSalt, userRole, isActive);
 
+				//Seeding HiringManager
+				var managerEmail = "hiringmanager@gmail.com";
+                var managerPasswordSalt = passwordHelper.CreateSalt(40);
+				var managerPassword = passwordHelper.CreatePasswordHash(managerPasswordSalt, "HiringManager@123");
+                var managerRole = "hiring_manager";
+				var managerUserName = "hiringmanager@gmail.com";
+				dataSeeder.AddUser(managerEmail, managerUserName, managerPassword, managerPasswordSalt, managerRole, isActive);
 
-				var orderStatuses = new List<string>
+                var orderStatuses = new List<string>
 				{
 					"order-pending",
 					"order-processing",
@@ -66,7 +73,20 @@ namespace Autopart.Api.Extensions
 					"order-out-for-delivery"
 				};
 
-				foreach (var status in orderStatuses)
+				var paymentStatus = new List<string>
+                {
+                    "payment-pending",
+                    "payment-completed",
+                    "payment-failed",
+                    "payment-refunded",
+                    "payment-cancelled"
+                };
+                foreach (var status in paymentStatus)
+                {
+                    dataSeeder.AddPaymentStatus(status);
+                }
+
+                foreach (var status in orderStatuses)
 				{
 					dataSeeder.AddOrderStatus(status);
 				}

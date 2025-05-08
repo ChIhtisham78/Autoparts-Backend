@@ -7,5 +7,6 @@ namespace Autopart.Domain.Interfaces
     {
         void AddUser(string email, string username, string password, string salt, string role,bool isActive);
         void AddOrderStatus(string status);
+        void AddPaymentStatus(string status);
     }
 }

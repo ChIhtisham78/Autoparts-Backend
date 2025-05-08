@@ -64,9 +64,18 @@ namespace Autopart.Data.Repositories
 
         public void AddOrderStatus(string status)
         {
-            if (!_context.Statuses.Any(os => os.Name == status))  // Updated to match the property name
+            if (!_context.Statuses.Any(os => os.Name == status))  
             {
-                _context.Statuses.Add(new Status { Name = status });  // Updated to match the property name
+                _context.Statuses.Add(new Status { Name = status }); 
+                _context.SaveChanges();
+            }
+        }
+
+        public void AddPaymentStatus(string status)
+        {
+            if (!_context.PaymentHistories.Any(os => os.Status == status)) 
+            {
+                _context.PaymentHistories.Add(new PaymentHistory { Status = status });
                 _context.SaveChanges();
             }
         }
