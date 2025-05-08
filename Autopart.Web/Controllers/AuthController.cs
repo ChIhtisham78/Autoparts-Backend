@@ -32,7 +32,7 @@ namespace Autopart.Api.Controllers
         {
             try
             {
-                var result = await _authService.ChangePassword(request.Email, request.Password, request.ConfirmPassword);
+                var result = await _authService.ChangePassword(request);
                 if (result)
                 {
                     return Ok(new { message = "Password changed successfully." });

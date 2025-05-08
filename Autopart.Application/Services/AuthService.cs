@@ -40,23 +40,23 @@ namespace Autopart.Application.Services
             _sendGridSetting = sendGridSetting;
         }
 
-        public async Task<bool> ChangePassword(string email, string password, string confirmPassword)
+        public async Task<bool> ChangePassword(ChangePasswordRequest request)
         {
-            if (string.IsNullOrEmpty(email))
+            if (string.IsNullOrEmpty(request.Email))
             {
                 throw new ArgumentException("Email is required.");
             }
 
-            if (password != confirmPassword)
+            if (request.Password != request.ConfirmPassword)
             {
                 throw new ArgumentException("Passwords do not match.");
             }
-            var user = await _userRepository.GetUserByEmail(email);
+            var user = await _userRepository.GetUserByEmail(request.Email);
             if (user == null)
             {
                 throw new ArgumentException("User not found.");
             }
-            var passwordHash = _passwordHelper.CreatePasswordHash(user.SecurityStamp, password);
+            var passwordHash = _passwordHelper.CreatePasswordHash(user.SecurityStamp, request.Password);
             user.PasswordHash = passwordHash;
              _userRepository.UpdateUser(user);
             await _userRepository.UnitOfWork.SaveChangesAsync();
