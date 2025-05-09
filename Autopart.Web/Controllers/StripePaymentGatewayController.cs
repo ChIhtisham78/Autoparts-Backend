@@ -54,8 +54,8 @@ namespace Autopart.Api.Controllers
         [HttpGet("payment-history")]
         public async Task<ActionResult> GetPaymentHistory()
         {
-
-            return Ok(await _stripeService.GetPaymentHistory());
+            var paymentHistory = await _stripeService.GetPaymentHistory();
+            return Ok(paymentHistory);
 
         }
         [HttpGet("payment-history/user/{userId}")]
