@@ -59,10 +59,10 @@ namespace Autopart.Application.Services
 							svcPricePerItem = svcRelation.Price.HasValue ? svcRelation.Price.Value : 0;
 						}
 					}
-					long lineItemTotal = (long)((orderLine.Amount + svcPricePerItem) * orderLine.Quantity);
+					long lineItemTotal = (long)((orderLine.Amount + svcPricePerItem) * orderLine.Quantity)!;
 					orderTotal += lineItemTotal;
 					var shippingAddress = await _ordersRepository.GetShippingAddressById(order.Id);
-					decimal taxRate = await _shippingsRepository.GetTaxRateForUserAddressAsync(shippingAddress);
+					decimal taxRate = await _shippingsRepository.GetTaxRateForUserAddressAsync(shippingAddress!);
 					decimal taxAmount = orderTotal * taxRate;
 					long taxAmountCents = (long)taxAmount * 100;
 
@@ -70,7 +70,7 @@ namespace Autopart.Application.Services
 					{
 						PriceData = new SessionLineItemPriceDataOptions
 						{
-							UnitAmount = (long)((orderLine.Amount + svcPricePerItem + taxAmount / orderLine.Quantity) * 100),
+							UnitAmount = (long)((orderLine.Amount + svcPricePerItem + taxAmount / orderLine.Quantity) * 100)!,
 							Currency = currency,
 							ProductData = new SessionLineItemPriceDataProductDataOptions
 							{
@@ -86,7 +86,7 @@ namespace Autopart.Application.Services
 					var coupon = await _ordersRepository.GetCouponByOrderId(CouponId);
 					if (coupon != null)
 					{
-						discountAmount = (long)(coupon.Amount.Value * 100);
+						discountAmount = (long)(coupon.Amount!.Value * 100);
 						orderTotal -= discountAmount;
 					}
 				}
@@ -102,7 +102,7 @@ namespace Autopart.Application.Services
 					{
 						Metadata = new Dictionary<string, string>
 				{
-					{ "userId", order.CustomerId.ToString() },
+					{ "userId", order.CustomerId.ToString()! },
 					{ "orderId", OrderId.ToString() },
 					{ "couponId", CouponId.ToString() }
 				},
@@ -138,7 +138,7 @@ namespace Autopart.Application.Services
 			{
 				Type = "express",
 				Country = "US",
-				Email = user.Email,
+				Email = user!.Email,
 				Capabilities = new AccountCapabilitiesOptions
 				{
 					CardPayments = new AccountCapabilitiesCardPaymentsOptions { Requested = true },
@@ -299,7 +299,7 @@ namespace Autopart.Application.Services
 		{
 			public bool ChargesEnabled { get; set; }
 			public bool PayoutsEnabled { get; set; }
-			public List<string> CurrentlyDueRequirements { get; set; }
+			public List<string>? CurrentlyDueRequirements { get; set; }
 		}
 	}
 }

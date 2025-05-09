@@ -72,13 +72,13 @@ namespace Autopart.Api.Controllers
 		//}
 		[Authorize]
 		[HttpPut("shop/{id}")]
-		public async Task<ActionResult<ShopDto>> UpdateShop([FromBody] ShopDto shopDto)
+		public async Task<ActionResult<ShopDto>> UpdateShop([FromBody]int id, ShopDto shopDto)
 		{
-			if (shopDto.Id == null)
+			if (shopDto == null)
 			{
 				return BadRequest();
 			}
-			var updatedShop = await _shopService.UpdateShop(shopDto);
+			var updatedShop = await _shopService.UpdateShop(id,shopDto);
 			if (updatedShop == null)
 			{
 				return NotFound();
