@@ -28,22 +28,16 @@ namespace Autopart.Api.Controllers
 			if (stripeEvent.Type == Events.PaymentIntentSucceeded)
 			{
 				var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
-				//var paymentMethodService = new PaymentMethodService();
-				//var paymentMethod = paymentMethodService.Get(paymentIntent.PaymentMethodId);
-				// need to manage the payment succeeded process here
 				await _stripeService.SavePaymentIntentAsync(paymentIntent);
 
 			}
 			else if (stripeEvent.Type == Events.PaymentIntentPaymentFailed)
 			{
 				var paymentIntent = stripeEvent.Data.Object as PaymentIntent;
-				//var paymentMethodService = new PaymentMethodService();
-				//var paymentMethod = paymentMethodService.Get(paymentIntent.PaymentMethodId);
-				//need to manage here the payment failed process here
+
 			}
 			else if (stripeEvent.Type == Events.AccountUpdated)
 			{
-				//need to manage the account details for the vendor 
 			}
 			else
 			{
