@@ -17,10 +17,6 @@ namespace Autopart.Api.Controllers
 		[HttpPost("CreateSubCategory")]
 		public async Task<IActionResult> CreateSubCategory([FromBody] AddSubCategoryListDto dto)
 		{
-			if (dto == null)
-			{
-				return BadRequest("Subcategory data is required.");
-			}
 			try
 			{
 				var createdSubCategory = await _subCategoryListService.CreateSubCategoryAsync(dto);
