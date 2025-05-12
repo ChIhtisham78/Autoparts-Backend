@@ -186,16 +186,13 @@ namespace Autopart.Application.Services
 
 		private async Task<string> EnsureUniqueSlugAsync(string name, string requestedSlug)
 		{
-			// Generate the initial slug from the requested name
 			string slug = GenerateSlug(requestedSlug);
 
-			// If the requested slug is not found in the database, return it directly
 			if (!await _categoryRepository.SlugExistsAsync(slug))
 			{
 				return slug;
 			}
 
-			// Otherwise, append a counter until a unique slug is found
 			int counter = 1;
 			string originalSlug = slug;
 

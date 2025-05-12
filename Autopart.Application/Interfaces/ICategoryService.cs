@@ -11,6 +11,6 @@ namespace Autopart.Application.Interfaces
 		Task<IEnumerable<CategoryDto>> GetCategoriesByParamAsync(string param, string language);
 		Task<IEnumerable<CategoryDto>> GetCategoriesByName(string param);
 		Task UpdateCategoryAsync(CategoryDto categoryDto);
-		Task DeleteCategoryAsync(int id);
+        Task DeleteCategoryAsync(int id);
 	}
 }

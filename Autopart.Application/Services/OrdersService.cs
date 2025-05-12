@@ -43,7 +43,7 @@ namespace Autopart.Application.Services
 			{
 				var shippingAddress = new ShippingAddress
 				{
-					Country = verifyOrderDto.ShippingAddress.Country,
+					Country = verifyOrderDto.ShippingAddress!.Country,
 					City = verifyOrderDto.ShippingAddress.City,
 					State = verifyOrderDto.ShippingAddress.State,
 					Zip = verifyOrderDto.ShippingAddress.Zip,
