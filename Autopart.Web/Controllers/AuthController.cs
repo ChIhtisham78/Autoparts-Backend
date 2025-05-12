@@ -96,6 +96,44 @@ namespace Autopart.Api.Controllers
         }
 
 
+
+        public async Task<IActionResult> UploadFile(IFormFile file)
+        {
+            long maxsize = 10 * 1024 * 1024;
+            var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+
+            if (file == null || file.Length == 0)
+                return NotFound("File Not Found");
+
+            var fileExtension = Path.GetExtension(file.FileName).ToLowerInvariant();
+
+            if (!allowedExtensions.Contains(fileExtension))
+                return BadRequest("Invalid file type. Only JPG, JPEG, PNG, and GIF files are allowed.");
+
+            if (file.Length > maxsize)
+                return Conflict("File size exceeds the maximum limit of 10MB.");
+
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+            Directory.CreateDirectory(uploadsFolder);
+
+            var uniqueFileName = $"{Guid.NewGuid()}{fileExtension}";
+            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+            try
+            {
+                using var stream = new FileStream(filePath, FileMode.Create);
+                await file.CopyToAsync(stream);
+            }
+            catch
+            {
+                return StatusCode(500, "An error occurred while saving the file.");
+            }
+
+            var publicUrl = $"/uploads/{uniqueFileName}";
+            return Ok(new { url = publicUrl });
+        }
+
+
         [HttpPost("logout")]
         [Authorize]
         public async Task<IActionResult> Logout()
