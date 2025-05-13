@@ -31,12 +31,14 @@ namespace Autopart.Data.Repositories
 
         public async Task<List<Category>> GetAllCategoriesAsync()
         {
-            return await _context.Categories.ToListAsync();
+            var category = await _context.Categories.ToListAsync();
+            return category;
         }
 
         public async Task<List<Svcrelation>> GetAllSVCRelationsAsync()
         {
-            return await _context.Svcrelations.ToListAsync();
+            var svcRelation = await _context.Svcrelations.ToListAsync();
+            return svcRelation;
         }
         public IEnumerable<OrderLine> GetAllOrderLines()
         {

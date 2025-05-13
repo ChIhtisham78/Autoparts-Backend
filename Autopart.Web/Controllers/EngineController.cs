@@ -59,7 +59,7 @@ namespace Autopart.Api.Controllers
 			}
 			catch (Exception)
 			{
-				return StatusCode(500, "An error occurred while retrieving engines.");
+				return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while retrieving engines.");
 			}
 		}
 
