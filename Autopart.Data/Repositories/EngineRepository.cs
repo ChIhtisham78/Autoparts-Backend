@@ -1,4 +1,5 @@
-﻿using Autopart.Domain.Interfaces;
+﻿using Autopart.Domain.CommonDTO;
+using Autopart.Domain.Interfaces;
 using Autopart.Domain.Models;
 using Autopart.Domain.SharedKernel;
 using Microsoft.EntityFrameworkCore;
@@ -28,49 +29,49 @@ namespace Autopart.Data.Repositories
         {
             return await _context.Engines.SingleOrDefaultAsync(m => m.Engine1 == name);
         }
-        public async Task<IEnumerable<Engine>> GetEnginesByParamsAsync(int? year, int? categoryId, int? subcategoryId, int? manufacturerId, int? modelId)
+        public async Task<IEnumerable<Engine>> GetEnginesByParamsAsync(GetEnginesDTO enginesDTO)
         {
             var query = _context.Engines.AsQueryable();
 
-            if (year.HasValue)
+            if (enginesDTO.year.HasValue)
             {
-                query = query.Where(e => e.Year == year.Value);
+                query = query.Where(e => e.Year == enginesDTO.year.Value);
             }
-            if (categoryId.HasValue)
+            if (enginesDTO.categoryId.HasValue)
             {
-                query = query.Where(e => e.CategoryId == categoryId.Value);
+                query = query.Where(e => e.CategoryId == enginesDTO.categoryId.Value);
             }
-            if (subcategoryId.HasValue)
+            if (enginesDTO.subcategoryId.HasValue)
             {
-                query = query.Where(e => e.SubcategoryId == subcategoryId.Value);
+                query = query.Where(e => e.SubcategoryId == enginesDTO.subcategoryId.Value);
             }
-            if (manufacturerId.HasValue)
+            if (enginesDTO.manufacturerId.HasValue)
             {
-                query = query.Where(e => e.ManufacturerId == manufacturerId.Value);
+                query = query.Where(e => e.ManufacturerId == enginesDTO.manufacturerId.Value);
             }
-            if (modelId.HasValue)
+            if (enginesDTO.modelId.HasValue)
             {
-                query = query.Where(e => e.ModelId == modelId.Value);
+                query = query.Where(e => e.ModelId == enginesDTO.modelId.Value);
             }
             return await query.ToListAsync();
         }
 
 
-        public async Task<IEnumerable<EngineDto>> GetEnginesAsync(int? categoryId, int? subcategoryId, int? modelId, int? manufacturerId)
+        public async Task<IEnumerable<EngineDto>> GetEnginesAsync(GetEnginesDTO enginesDTO)
         {
             var query = from e in _context.Engines
                         join sc in _context.SubCategoryLists on e.SubcategoryId equals sc.Id into subcategorygrouped
                         from sc in subcategorygrouped.DefaultIfEmpty()
-                        where !subcategoryId.HasValue || e.SubcategoryId == subcategoryId.Value
+                        where !enginesDTO.subcategoryId.HasValue || e.SubcategoryId == enginesDTO.subcategoryId.Value
                         join m in _context.Manufactures on e.ManufacturerId equals m.Id into manufacturergrouped
                         from m in manufacturergrouped.DefaultIfEmpty()
-                        where !manufacturerId.HasValue || e.ManufacturerId == manufacturerId.Value
+                        where !enginesDTO.manufacturerId.HasValue || e.ManufacturerId == enginesDTO.manufacturerId.Value
                         join c in _context.Categories on e.CategoryId equals c.Id into categorygrouped
                         from c in categorygrouped.DefaultIfEmpty()
-                        where !categoryId.HasValue || e.CategoryId == categoryId.Value
+                        where !enginesDTO.categoryId.HasValue || e.CategoryId == enginesDTO.categoryId.Value
                         join mm in _context.ManufacturerModels on e.ModelId equals mm.Id into manufacturermodelgrouped
                         from mm in manufacturermodelgrouped.DefaultIfEmpty()
-                        where !modelId.HasValue || e.ModelId == modelId.Value
+                        where !enginesDTO.modelId.HasValue || e.ModelId == enginesDTO.modelId.Value
                         select new EngineDto
                         {
                             Id = e.Id,

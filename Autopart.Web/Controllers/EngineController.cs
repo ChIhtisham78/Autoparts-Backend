@@ -1,5 +1,6 @@
 ﻿using Autopart.Application.Interfaces;
 using Autopart.Application.Models;
+using Autopart.Domain.CommonDTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Autopart.Api.Controllers
@@ -35,11 +36,11 @@ namespace Autopart.Api.Controllers
 
 
 		[HttpGet("GetEngines")]
-		public async Task<IActionResult> GetEngines([FromQuery] int? categoryId, [FromQuery] int? subcategoryId, [FromQuery] int? modelId, [FromQuery] int? manufacturerId)
+		public async Task<IActionResult> GetEngines([FromQuery] GetEnginesDTO enginesDTO)
 		{
 			try
 			{
-				var engines = await _engineService.GetEnginesAsync(categoryId, subcategoryId, modelId, manufacturerId);
+				var engines = await _engineService.GetEnginesAsync(enginesDTO);
 				return Ok(engines);
 			}
 			catch (Exception ex)
@@ -49,11 +50,11 @@ namespace Autopart.Api.Controllers
 		}
 
 		[HttpGet("GetEnginesByParams")]
-		public async Task<IActionResult> GetEnginesByParams([FromQuery] int? year, [FromQuery] int? categoryId, [FromQuery] int? subcategoryId, [FromQuery] int? manufacturerId, [FromQuery] int? modelId)
+		public async Task<IActionResult> GetEnginesByParams([FromQuery] GetEnginesDTO enginesDTO)
 		{
 			try
 			{
-				var engines = await _engineService.GetEnginesByParamsAsync(year, categoryId, subcategoryId, manufacturerId, modelId);
+				var engines = await _engineService.GetEnginesByParamsAsync(enginesDTO);
 				return Ok(engines);
 			}
 			catch (Exception)

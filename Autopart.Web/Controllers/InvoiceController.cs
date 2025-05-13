@@ -163,19 +163,6 @@ namespace Autopart.Api.Controllers
 
             document.Add(table);
         }
-        private async Task<decimal> GetTaxRateForUserAddressAsync(ShippingAddress shippingAddress)
-        {
-            if (shippingAddress == null || string.IsNullOrEmpty(shippingAddress.State))
-            {
-                return 0.0m;
-            }
-            var taxRate = await _context.Taxes
-                .Where(t => t.State == shippingAddress.State)
-                .Select(t => t.Rate)
-                .FirstOrDefaultAsync();
-
-            return taxRate ?? 0;
-        }
 
         private async Task AddSummarySection(Document document, Order order, ShippingAddress? shippingAddress)
         {
@@ -204,7 +191,7 @@ namespace Autopart.Api.Controllers
             decimal totalTax = 0;
             if (shippingAddress != null)
             {
-                var taxRate = await GetTaxRateForUserAddressAsync(shippingAddress);
+                var taxRate = await _shippingsRepository.GetTaxRateForUserAddressAsync(shippingAddress);
                 totalTax = taxRate * subtotal;
             }
 
@@ -229,8 +216,5 @@ namespace Autopart.Api.Controllers
 
             document.Add(summaryTable);
         }
-
-
-
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Autopart.Application.Models;
+using Autopart.Domain.CommonDTO;
 using Autopart.Domain.Interfaces;
 
 namespace Autopart.Application.Interfaces
@@ -6,8 +7,8 @@ namespace Autopart.Application.Interfaces
 	public interface IEngineService
 	{
 		Task<AddEngineDto> CreateEngineAsync(AddEngineDto engineDto);
-		Task<IEnumerable<EngineDto>> GetEnginesAsync(int? categoryId, int? subcategoryId, int? modelId, int? manufacturerId);
-		Task<IEnumerable<EngineIdAndNameDto>> GetEnginesByParamsAsync(int? year, int? categoryId, int? subcategoryId, int? manufacturerId, int? modelId);
+		Task<IEnumerable<EngineDto>> GetEnginesAsync(GetEnginesDTO enginesDTO);
+		Task<IEnumerable<EngineIdAndNameDto>> GetEnginesByParamsAsync(GetEnginesDTO enginesDTO);
 		Task DeleteEngineByIdAsync(int id);
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using Autopart.Application.Interfaces;
 using Autopart.Application.Models;
+using Autopart.Domain.CommonDTO;
 using Autopart.Domain.Interfaces;
 using Autopart.Domain.Models;
 using Autopart.Domain.SharedKernel;
@@ -46,17 +47,17 @@ namespace Autopart.Application.Services
 		}
 
 
-		public async Task<IEnumerable<EngineIdAndNameDto>> GetEnginesByParamsAsync(int? year, int? categoryId, int? subcategoryId, int? manufacturerId, int? modelId)
+		public async Task<IEnumerable<EngineIdAndNameDto>> GetEnginesByParamsAsync(GetEnginesDTO enginesDTO)
 		{
-			var engines = await _engineRepository.GetEnginesByParamsAsync(year, categoryId, subcategoryId, manufacturerId, modelId);
+			var engines = await _engineRepository.GetEnginesByParamsAsync(enginesDTO);
 			return _typeAdapter.Adapt<IEnumerable<EngineIdAndNameDto>>(engines);
 		}
 
 
 
-		public async Task<IEnumerable<EngineDto>> GetEnginesAsync(int? categoryId, int? subcategoryId, int? modelId, int? manufacturerId)
+		public async Task<IEnumerable<EngineDto>> GetEnginesAsync(GetEnginesDTO enginesDTO)
 		{
-			var engines = await _engineRepository.GetEnginesAsync(categoryId, subcategoryId, modelId, manufacturerId);
+			var engines = await _engineRepository.GetEnginesAsync(enginesDTO);
 			return _typeAdapter.Adapt<IEnumerable<EngineDto>>(engines);
 		}
 
