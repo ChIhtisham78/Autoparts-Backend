@@ -124,21 +124,18 @@ namespace Autopart.Data.Repositories
                     query = query.Where(o => o.orders.CustomerId == ordersDto.customerId);
                 }
 
-                // Filter by OrderNumber if provided
                 if (ordersDto.orderNumber.HasValue)
                 {
                     query = query.Where(o => o.orders.Shippings.Any(s => s.TrackingNo.Contains(ordersDto.trackingNumber!)));
                 }
 
-                // Filter by search term if provided
-                if (!string.i(ordersDto.search))
+                if (!string.IsNullOrEmpty(ordersDto.search))
                 {
                     query = query.Where(o => o.orders.OrderLines.Any(ol => ol.Product.Name.Contains(ordersDto.search) || ol.Product.Slug.Contains(ordersDto.search)));
                 }
 
 
                 var totalCount = await query.CountAsync();
-                //var totalCount = 0;
 
                 var orders = await query
                     .Skip((ordersDto.pageNumber - 1) * ordersDto.pageSize)
@@ -177,7 +174,6 @@ namespace Autopart.Data.Repositories
         public async Task<List<Order>> GetOrderLineProducts()
         {
             var orders = await _context.Orders.Include(o => o.OrderLines).ThenInclude(ol => ol.Product).ToListAsync();
-
             return orders;
         }
         public async Task<Category> GetCategoryByIdAsync(int id)
@@ -206,8 +202,12 @@ namespace Autopart.Data.Repositories
 
         public async Task<List<Order>> GetPendingOrdersByUserId(int customerId)
         {
-            return await _context.Orders.Include(o => o.Status).Include(o => o.OrderLines).ThenInclude(ol => ol.Product)
-                .ThenInclude(p => p.Image).Where(o => o.CustomerId == customerId && o.Status.Name == "Pending").ToListAsync();
+            return await _context.Orders
+                .Include(o => o.Status)
+                .Include(o => o.OrderLines)
+                 .ThenInclude(ol => ol.Product)
+                .ThenInclude(p => p.Image)
+                .Where(o => o.CustomerId == customerId && o.Status.Name == "Pending").ToListAsync();
         }
 
         public async Task<List<Order>> GetAllOrdersByUserId(int customerId)

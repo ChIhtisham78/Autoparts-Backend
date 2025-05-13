@@ -23,7 +23,7 @@ namespace Autopart.Data.Repositories
         }
         public async Task<ManufacturerModel?> GetModelByName(string name)
         {
-            return await _context.ManufacturerModels.SingleOrDefaultAsync(m => m.Model == name);
+            return await _context.ManufacturerModels.FirstOrDefaultAsync(m => m.Model == name);
         }
 
         public async Task<IEnumerable<ManufacturerModel>> GetManufactureByManufacturerIdAsync(int? manufacturerId)
