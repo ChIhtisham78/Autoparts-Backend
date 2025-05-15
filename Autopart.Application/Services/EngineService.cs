@@ -33,7 +33,6 @@ namespace Autopart.Application.Services
 					Year = engineDto.Year,
 					Engine1 = engineDto.Engine1,
 					HollanderCode = engineDto.HollanderCode,
-
 				};
 
 				await _engineRepository.AddEngineAsync(engine);

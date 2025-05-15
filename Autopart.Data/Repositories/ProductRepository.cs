@@ -28,8 +28,6 @@ namespace Autopart.Data.Repositories
                 .FirstOrDefaultAsync() ?? new Svcrelation();
         }
 
-
-
         public async Task<Product> GetWishlistProductAsync(int userId, int productId)
         {
             return await _context.UserWishlists
@@ -39,8 +37,6 @@ namespace Autopart.Data.Repositories
                 .Select(uw => uw.Product)
                 .FirstOrDefaultAsync() ?? new Product();
         }
-
-
 
         public async Task<SubCategoryList> GetSubCategoryByIdAsync(int id)
         {
@@ -56,9 +52,6 @@ namespace Autopart.Data.Repositories
         {
             return await _context.Engines.FindAsync(id) ?? new Engine();
         }
-
-
-
 
         public async Task<IEnumerable<GetWishlistProductsDto>> GetWishlistProductsByUserIdAsync(int userId)
         {
