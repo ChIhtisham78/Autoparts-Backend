@@ -9,7 +9,6 @@ using OfficeOpenXml;
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 
-// Add services to the container.
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigins",
@@ -59,29 +58,6 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.MappingExtension();
 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
-//builder.Services.AddAuthentication(options =>
-//{
-//    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-//    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-//})
-//.AddJwtBearer(options =>
-//{
-//    options.TokenValidationParameters = new TokenValidationParameters
-//    {
-//        ValidateIssuer = true,
-//        ValidateAudience = true,
-//        ValidateIssuerSigningKey = true,
-//        ValidIssuer = configuration["Jwt:Issuer"],
-//        ValidAudience = configuration["Jwt:Audience"],
-//        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]))
-//    };
-//})
-//.AddGoogle(options =>
-//{
-//    options.ClientId = configuration["Google:ClientId"];
-//    options.ClientSecret = configuration["Google:ClientSecret"];
-//});
-
 var app = builder.Build();
 
 app.UseSwagger();
@@ -90,12 +66,6 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
-//// Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
-
-//}
-
 app.UseHttpsRedirection();
 app.UseCors("AllowSpecificOrigins");
 app.UseMiddleware<JwtBlacklistMiddleware>();
@@ -105,4 +75,3 @@ app.UseStaticFiles();
 app.MapControllers();
 app.Services.Seed();
 app.Run();
-
