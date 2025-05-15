@@ -42,7 +42,6 @@ namespace Autopart.Api.Controllers
 			}
 		}
 
-
 		[HttpDelete("{id}")]
 		public async Task<IActionResult> DeleteSubCategory(int id)
 		{

@@ -1,6 +1,8 @@
 using Autopart.Api.Extensions;
 using Autopart.API.Extensions;
+using Autopart.Data;
 using Autopart.Data.Extensions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using OfficeOpenXml;
 
@@ -20,7 +22,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddControllers();
 builder.Services.AddDatabase();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {

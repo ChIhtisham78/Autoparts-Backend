@@ -34,7 +34,6 @@ namespace Autopart.Api.Controllers
 		[HttpGet("orders")]
 		public async Task<ActionResult> GetOrders(GetAllOrdersDto ordersDto)
 		{
-
 			var (orders, totalCount) = await _ordersService.GetOrders(ordersDto);
 
 			var response = new
