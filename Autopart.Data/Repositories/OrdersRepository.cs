@@ -52,8 +52,10 @@ namespace Autopart.Data.Repositories
 
         public async Task<Address?> GetAddressByCustomerId(int customerId)
         {
-            return await _context.Addresses
-                                 .FirstOrDefaultAsync(a => a.UserId == customerId);
+            var getAddressByCustomerId = await _context.Addresses
+                .Include(a => a.User)
+                .FirstOrDefaultAsync(a => a.UserId == customerId);
+            return getAddressByCustomerId;
         }
 
         public async Task SaveOrderAsync(OrderLine orderLine)
@@ -169,7 +171,8 @@ namespace Autopart.Data.Repositories
 
         public async Task<List<Order>> GetPendingOrders()
         {
-            return await _context.Orders.Include(o => o.Status).Where(o => o.Status.Name == "Pending").ToListAsync();
+            var orders = await _context.Orders.Include(o => o.Status).Where(o => o.Status.Name == "Pending").ToListAsync();
+            return orders;
         }
 
         public async Task<List<Order>> GetOrderLineProducts()
