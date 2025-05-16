@@ -46,7 +46,8 @@ namespace Autopart.Data.Repositories
         }
         public IEnumerable<Product> GetAllProductWithImages()
         {
-            return _context.Products.Include(x => x.Image).AsQueryable();
+            var getProductWithImages = _context.Products.Include(x => x.Image).AsQueryable();
+            return getProductWithImages;
         }
 
         public async Task<Address?> GetAddressByCustomerId(int customerId)
