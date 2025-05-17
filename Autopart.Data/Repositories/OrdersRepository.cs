@@ -241,7 +241,8 @@ namespace Autopart.Data.Repositories
 
         public async Task<Shop?> GetShopById(int Id)
         {
-            return await _context.Shops.FirstOrDefaultAsync(s => s.Id == Id) ?? new Shop();
+            var shop = await _context.Shops.FirstOrDefaultAsync(s => s.Id == Id) ?? new Shop();
+            return shop;
         }
 
         public async Task<Coupon?> GetCouponByOrderId(int Id)
