@@ -251,8 +251,8 @@ namespace Autopart.Data.Repositories
 
         public async Task<Address?> GetUserAddressById(int orderId)
         {
-            //var temp = _context.Orders.Include(x => x.Customer).Include(x => x.Customer.Addresses).Where(x=>x.Id == orderId).ToList();
-            return await _context.Addresses.Include(a => a.User).FirstOrDefaultAsync(a => a.User.Orders.Any(o => o.Id == orderId));
+            var address = await _context.Addresses.Include(a => a.User).FirstOrDefaultAsync(a => a.User.Orders.Any(o => o.Id == orderId));
+            return address;
 
         }
         public async Task<ShippingAddress?> GetShippingAddressById(int orderId)
