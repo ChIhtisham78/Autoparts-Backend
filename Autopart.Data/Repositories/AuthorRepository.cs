@@ -55,8 +55,9 @@ namespace Autopart.Data.Repositories
 
         public async Task<Image> UpdateImage(Image image)
         {
-            _context.Images.Update(image);
-            return image;
+            var images = _context.Images.Update(image);
+            return images.Entity;
+            
         }
 
         public async Task RemoveAuthorAsync(int id)
