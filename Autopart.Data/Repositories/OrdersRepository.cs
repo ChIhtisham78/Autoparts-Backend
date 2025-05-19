@@ -232,12 +232,10 @@ namespace Autopart.Data.Repositories
         }
         public async Task<AspNetUser?> GetUserById(int orderId)
         {
-            return await _context.AspNetUsers
-                                 .Include(u => u.Orders)
-                                 .Include(u => u.Profiles)
-                                 .FirstOrDefaultAsync(u => u.Orders.Any(o => o.Id == orderId));
-        }
+            var user = await _context.AspNetUsers.Include(x=>x.Orders).Include(x=>x.Profiles).FirstOrDefaultAsync(x => x.Orders.Any(o => o.Id == orderId));
+            return user;
 
+        }
 
         public async Task<Shop?> GetShopById(int Id)
         {
@@ -259,14 +257,12 @@ namespace Autopart.Data.Repositories
         public async Task<ShippingAddress?> GetShippingAddressById(int orderId)
         {
             var shippingAddress = await _context.ShippingAddresses.Where(x => x.OrderId == orderId).FirstOrDefaultAsync();
-
             return shippingAddress;
         }
 
         public async Task<BillingAddress?> GetbillingAddressById(int orderId)
         {
             var billingAddress = await _context.BillingAddresses.Where(x => x.OrderId == orderId).FirstOrDefaultAsync();
-
             return billingAddress;
         }
 
@@ -288,7 +284,8 @@ namespace Autopart.Data.Repositories
 
         public async Task<bool> DoesTrackingNumberExistAsync(int orderNumber)
         {
-            return await _context.Orders.AnyAsync(o => o.OrderNumber == orderNumber);
+            var tracking = await _context.Orders.AnyAsync(o => o.OrderNumber == orderNumber);
+            return tracking;
         }
 
 
@@ -334,7 +331,8 @@ namespace Autopart.Data.Repositories
         public async Task<List<Status>> GetOrderStatues()
         {
             //var result = _context.Statuses.Select( x=> new LookupDto{ x.)
-            return await _context.Statuses.ToListAsync();
+            var status = await _context.Statuses.ToListAsync();
+            return status;
         }
         public async Task<List<OrderLine>> GetOrderLines(int? orderId)
         {
