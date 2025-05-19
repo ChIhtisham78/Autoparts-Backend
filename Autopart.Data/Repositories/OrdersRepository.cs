@@ -339,7 +339,6 @@ namespace Autopart.Data.Repositories
             return await _context.OrderLines.Where(x => x.OrderId == orderId).ToListAsync();
         }
 
-
         public async Task<int> GetTotalOrdersCount(int? vendorId = null)
         {
             if (vendorId.HasValue)
@@ -369,14 +368,11 @@ namespace Autopart.Data.Repositories
                     .Include(o => o.Status)
                     .CountAsync(o => o.Status.Name == "Refunded");
             }
-            //return await _context.Orders
-            //	.Include(o => o.Status).CountAsync(o => o.Status.Name == "Refunded");
         }
 
 
         public async Task<IQueryable<Order>> GetOrdersQueryAsync(int? vendorId)
         {
-            //return Task.FromResult(_context.Orders.AsQueryable());
             IQueryable<Order> query = _context.Orders.AsQueryable();
             if (vendorId.HasValue)
             {
@@ -391,24 +387,12 @@ namespace Autopart.Data.Repositories
 
         public async Task<List<Order>> GetOrders(int? vendorId = null)
         {
-            //return await _context.Orders.Include(o => o.Status).ToListAsync();
             IQueryable<Order> query = _context.Orders.Include(o => o.Status);
-
-            //if (vendorId.HasValue)
-            //{
-            //	//query = from order in _context.Orders
-            //	//        join shop in _context.Shops on order.ShopId equals shop.Id
-            //	//        where shop.OwnerId == vendorId.Value
-            //	//        select order;
-            //	query = query.Where(order => order.Shop.OwnerId == vendorId.Value);
-            //}
-
             return await query.ToListAsync();
         }
 
         public async Task<List<OrderLine>> GetOrderLine(int? vendorId = null)
         {
-            //return await _context.OrderLines.Include(o => o.Total).ToListAsync();
             IQueryable<OrderLine> query = _context.OrderLines.Include(ol => ol.Order);
 
             if (vendorId.HasValue)
@@ -440,10 +424,6 @@ namespace Autopart.Data.Repositories
                     .SelectMany(o => o.OrderLines)
                     .SumAsync(ol => (decimal?)ol.Total) ?? 0;
             }
-            //return await _context.Orders
-            //	.Include(o => o.OrderLines)
-            //	.SelectMany(o => o.OrderLines)
-            //	.SumAsync(ol => (decimal?)ol.Total) ?? 0;
         }
         public async Task<decimal> GetTodayRevenue(int? vendorId = null)
         {
@@ -467,11 +447,6 @@ namespace Autopart.Data.Repositories
                     .SelectMany(o => o.OrderLines)
                     .SumAsync(ol => (decimal?)ol.Total) ?? 0;
             }
-            //	return (await _context.Orders
-            //.Include(o => o.OrderLines)
-            //.Where(o => o.CreatedAt >= startDate && o.CreatedAt < endDate)
-            //.SelectMany(o => o.OrderLines)
-            //.SumAsync(ol => (decimal?)ol.Total)) ?? 0;
         }
 
         public async Task<Status> GetStatusById(int statusId)
@@ -481,9 +456,10 @@ namespace Autopart.Data.Repositories
 
         public async Task UpdateOrder(Order order)
         {
-           _context.Orders.Update(order);
-
+            _context.Orders.Update(order);
+            await _context.SaveChangesAsync();
         }
+
 
         public async Task<Order> GetUpdateOrderById(int id)
         {
