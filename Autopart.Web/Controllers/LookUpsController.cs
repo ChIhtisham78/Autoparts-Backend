@@ -30,8 +30,8 @@ namespace Autopart.Api.Controllers
 			return Ok(categoryproduct);
 		}
 
-
-		public async Task<IActionResult> UploadFile(IFormFile file)
+		[HttpPost("product/uploadfile")]
+        public async Task<IActionResult> UploadFile(IFormFile file)
 		{
 			if (file == null && file.Length == 0)
 				return NotFound("File Not Found");
