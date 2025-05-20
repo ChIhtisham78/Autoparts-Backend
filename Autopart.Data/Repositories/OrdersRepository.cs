@@ -451,7 +451,8 @@ namespace Autopart.Data.Repositories
 
         public async Task<Status> GetStatusById(int statusId)
         {
-            return await _context.Statuses.FirstOrDefaultAsync(s => s.Id == statusId) ?? new Status();
+            var status = await _context.Statuses.FirstOrDefaultAsync(s => s.Id == statusId) ?? new Status();
+            return status;
         }
 
         public async Task UpdateOrder(Order order)
