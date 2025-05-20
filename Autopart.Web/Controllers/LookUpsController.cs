@@ -30,7 +30,33 @@ namespace Autopart.Api.Controllers
 			return Ok(categoryproduct);
 		}
 
-		[HttpGet("product/gettags/lookup")]
+
+		public async Task<IActionResult> UploadFile(IFormFile file)
+		{
+			if (file == null && file.Length == 0)
+				return NotFound("File Not Found");
+			long maxFileSize = 10 * 1024 * 1024;
+			var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+            var fileExtension = Path.GetExtension(file.FileName).ToLowerInvariant();
+            if (!allowedExtensions.Contains(fileExtension))
+            {
+                return BadRequest("Invalid file type. Only .jpg, .jpeg, .png, and .gif are allowed.");
+            }
+            if (file.Length > maxFileSize)
+            {
+                return BadRequest($"File size exceeds the limit of {maxFileSize / (1024 * 1024)} MB.");
+
+            }
+            var filePath = Path.Combine("uploads", file.FileName);
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+            return Ok(new { filePath });
+        }
+
+
+        [HttpGet("product/gettags/lookup")]
 		public async Task<ActionResult> GetTagsByProduct()
 		{
 			var tagsbyprducts = await _context.GetTagsByProduct();
