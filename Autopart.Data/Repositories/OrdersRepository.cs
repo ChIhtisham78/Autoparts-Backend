@@ -431,7 +431,7 @@ namespace Autopart.Data.Repositories
             var startDate = DateTime.SpecifyKind(today, DateTimeKind.Unspecified);
             var endDate = DateTime.SpecifyKind(today.AddDays(1), DateTimeKind.Unspecified);
 
-            if (vendorId.HasValue)
+                if (vendorId.HasValue)
             {
                 return await (from order in _context.Orders
                               join shop in _context.Shops on order.ShopId equals shop.Id
@@ -463,15 +463,14 @@ namespace Autopart.Data.Repositories
 
         public async Task<Order> GetUpdateOrderById(int id)
         {
-            return await _context.Orders.FindAsync(id) ?? new Order();
+            var updateOrder = await _context.Orders.FindAsync(id);
+            return updateOrder!;
         }
 
         public async Task<AspNetUser?> GetOrderByCustomerId(int customerId)
         {
-            return await _context.AspNetUsers
-                .Include(u => u.Orders)
-                .Include(u => u.Profiles)
-                .FirstOrDefaultAsync(u => u.Id == customerId);
+            var getOrderbyCustomeId = await _context.AspNetUsers.Include(o => o.Orders).Include(o => o.Profiles).FirstOrDefaultAsync(x => x.Id == customerId);
+            return getOrderbyCustomeId;
         }
 
     }
