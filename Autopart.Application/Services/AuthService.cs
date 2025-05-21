@@ -121,7 +121,7 @@ namespace Autopart.Application.Services
                 userName: user.UserName,
                 message1: string.Empty,
                 body: emailBody,
-                attachments: null
+                attachments: null!
             );
 
             return emailResult;
