@@ -6,7 +6,6 @@
         public string RefreshToken { get; set; }
         public AuthenticatedUser User { get; set; }
         public static AuthResponse Empty => new() { AccessToken = string.Empty, RefreshToken = string.Empty };
-
         public bool IsEmpty() => string.IsNullOrWhiteSpace(AccessToken) && string.IsNullOrWhiteSpace(RefreshToken);
     }
     public class AuthenticatedUser
@@ -17,11 +16,8 @@
         public string? PhoneNumber { get; set; }
         public string? Role { get; set; }
         public string? StripeVendorId { get; set; }
-
         public string? StripeDashboardAccess { get; set; }
-
         public string? StripeVendorStatus { get; set; }
         public string[]? Permissions { get; set; }
-
     }
 }

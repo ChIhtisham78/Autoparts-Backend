@@ -133,7 +133,6 @@ namespace Autopart.Application.Services
         {
             try
             {
-                // Create and save the new user
                 var user = new AspNetUser
                 {
                     UserName = addNewUserDto.UserName,

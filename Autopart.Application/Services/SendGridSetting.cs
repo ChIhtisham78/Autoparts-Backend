@@ -19,7 +19,6 @@ namespace Autopart.Application.Services
             var to = new EmailAddress(email, userName);
             var msg = MailHelper.CreateSingleEmail(from, to, subject, message1, body);
 
-            // Add attachments to the email message
             if (attachments != null && attachments.Count > 0)
             {
                 foreach (var attachmentModel in attachments)
