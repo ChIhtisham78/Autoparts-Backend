@@ -18,10 +18,9 @@ namespace Autopart.Data.Repositories
 
         public async Task<Category> CreateCategoryAsync(Category category)
         {
-
-            await _context.Categories.AddAsync(category);
+            var categories = await _context.Categories.AddAsync(category);
             await _context.SaveChangesAsync();
-            return category;
+            return categories.Entity;
 
         }
         public void AddCategory(Category category)
@@ -38,9 +37,9 @@ namespace Autopart.Data.Repositories
         public async Task<Image> CreateImageAsync(Image image)
         {
 
-            await _context.Images.AddAsync(image);
+            var images = await _context.Images.AddAsync(image);
             await _context.SaveChangesAsync();
-            return image;
+            return images.Entity;
 
         }
 
@@ -65,16 +64,16 @@ namespace Autopart.Data.Repositories
 
         public async Task<IEnumerable<Category>> GetCategoriesByParamAsync(string param, string language)
         {
-            return await _context.Categories.Where(x => x.Name.Contains(param) && x.Language.Contains(language)).ToListAsync();
+            var category = await _context.Categories.Where(x => x.Name.Contains(param) && x.Language.Contains(language)).ToListAsync();
+            return category;
+
         }
-
-
 
         public async Task<IEnumerable<Category>> GetCategoriesByNameAsync(string param)
         {
-            return await _context.Categories
-                .Where(x => x.Name.Contains(param))
-                .ToListAsync();
+               var category = await _context.Categories.Where(x => x.Name.Contains(param)).ToListAsync();
+            return category;
+                
         }
 
         public async Task<IEnumerable<Category>> GetCategoryBySlug(string slug)
