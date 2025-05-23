@@ -66,7 +66,6 @@ namespace Autopart.Data.Repositories
         {
             var category = await _context.Categories.Where(x => x.Name.Contains(param) && x.Language.Contains(language)).ToListAsync();
             return category;
-
         }
 
         public async Task<IEnumerable<Category>> GetCategoriesByNameAsync(string param)
