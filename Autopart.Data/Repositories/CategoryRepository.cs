@@ -70,7 +70,7 @@ namespace Autopart.Data.Repositories
 
         public async Task<IEnumerable<Category>> GetCategoriesByNameAsync(string param)
         {
-               var category = await _context.Categories.Where(x => x.Name.Contains(param)).ToListAsync();
+            var category = await _context.Categories.Where(x => x.Name.Contains(param)).ToListAsync();
             return category;
                 
         }
@@ -124,7 +124,8 @@ namespace Autopart.Data.Repositories
         }
         public async Task<bool> SlugExistsAsync(string slug)
         {
-            return await _context.Categories.AnyAsync(p => p.Slug == slug);
+            var slugExists = await _context.Categories.AnyAsync(p => p.Slug == slug);
+            return slugExists;
         }
     }
 }
