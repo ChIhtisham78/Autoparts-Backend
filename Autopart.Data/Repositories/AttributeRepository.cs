@@ -48,7 +48,8 @@ namespace Autopart.Data.Repositories
 
         public async Task<IEnumerable<Domain.Models.Attribute>> GetAttributeByParamAsync(string param)
         {
-            return await _context.Attributes.Where(x => x.Name.Contains(param)).ToListAsync();
+            var getAttributes = await _context.Attributes.Where(e => e.Name.Contains(param)).ToListAsync();
+            return getAttributes;
         }
 
         public async Task UpdateAttributeAsync(Domain.Models.Attribute attribute)
