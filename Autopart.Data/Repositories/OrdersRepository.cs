@@ -230,8 +230,8 @@ namespace Autopart.Data.Repositories
         }
         public async Task<AspNetUser?> GetUserById(int orderId)
         {
-            var user = await _context.AspNetUsers.Include(x=>x.Orders).Include(x=>x.Profiles).FirstOrDefaultAsync(x => x.Orders.Any(o => o.Id == orderId));
-            return user;
+            return await _context.AspNetUsers.Include(x=>x.Orders).Include(x=>x.Profiles).FirstOrDefaultAsync(x => x.Orders.Any(o => o.Id == orderId));
+            
 
         }
 
