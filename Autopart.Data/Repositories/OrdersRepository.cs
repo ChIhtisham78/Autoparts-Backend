@@ -31,14 +31,13 @@ namespace Autopart.Data.Repositories
 
         public async Task<List<Category>> GetAllCategoriesAsync()
         {
-            var category = await _context.Categories.ToListAsync();
-            return category;
+            return await _context.Categories.ToListAsync();
+            
         }
 
         public async Task<List<Svcrelation>> GetAllSVCRelationsAsync()
         {
-            var svcRelation = await _context.Svcrelations.ToListAsync();
-            return svcRelation;
+            return await _context.Svcrelations.ToListAsync(); 
         }
         public IEnumerable<OrderLine> GetAllOrderLines()
         {
@@ -46,8 +45,7 @@ namespace Autopart.Data.Repositories
         }
         public IEnumerable<Product> GetAllProductWithImages()
         {
-            var getProductWithImages = _context.Products.Include(x => x.Image).AsQueryable();
-            return getProductWithImages;
+            return _context.Products.Include(x => x.Image).AsQueryable();
         }
 
         public async Task<Address?> GetAddressByCustomerId(int customerId)
